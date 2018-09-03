@@ -8,15 +8,15 @@ const HomeScreen = ({ navigation }) => (
         <Image source = {require('../../assets/icons/menu.png')} />
         <Button
             title="Go to Food"
-            onPress={() => navigation.dispatch({ type: 'Cart' })}
+            onPress={() => navigation.openDrawer()}
         />
         <Button
             title="Go to Categories"
-            onPress={() => this.props.navigation.navigate('CategoryList')}
+            onPress={() => navigation.navigate('CategoryList')}
         />
         <Button
             title="Go to Search"
-            onPress={() => this.props.navigation.navigate('Search')}
+            onPress={() => navigation.navigate('Search')}
         />
         <Button
             title="Go to Cart2"
@@ -24,15 +24,15 @@ const HomeScreen = ({ navigation }) => (
         />
         <Button
             title="Go to Reservation"
-            onPress={() => this.props.navigation.navigate('Reservation')}
+            onPress={() => navigation.navigate('Reservation')}
         />
         <Button
             title="Go to Order"
-            onPress={() => this.props.navigation.navigate('OrderList')}
+            onPress={() => navigation.navigate('OrderList')}
         />
         <Button
             title="Go to Welcome"
-            onPress={() => this.props.navigation.navigate('Welcome')}
+            onPress={() => navigation.navigate('Welcome')}
         />
     </View>
 );
@@ -45,7 +45,7 @@ HomeScreen.navigationOptions = {
             style={[styles.icon, {tintColor: tintColor}]}
         />
     ),
-    headerLeft: <Image source = {require('../../assets/icons/home.png')} />
+    headerLeft: <Image source = {require('../../assets/icons/home.png')} onPress={() => {navigation.openDrawer()} } />
 };
 
 

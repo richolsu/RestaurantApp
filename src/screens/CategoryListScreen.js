@@ -12,6 +12,10 @@ export default class CategoryListScreen extends React.Component {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Text> Categories Screen </Text>  
+                <Button
+                    title="Go to Food"
+                    onPress={() => this.props.navigation.navigate('FoodList')}
+                />
             </View>
         );
     }

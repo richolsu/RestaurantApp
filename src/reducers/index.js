@@ -4,12 +4,9 @@ import { NavigationActions } from 'react-navigation';
 import { RootNavigator } from '../navigations/AppNavigation';
 
 // Start with two routes: The Main screen, with the Login screen on top.
-const firstAction = RootNavigator.router.getActionForPathAndParams('Home');
-const tempNavState = RootNavigator.router.getStateForAction(firstAction);
-const secondAction = RootNavigator.router.getActionForPathAndParams('Login');
+const firstAction = RootNavigator.router.getActionForPathAndParams('loginStack');
 const initialNavState = RootNavigator.router.getStateForAction(
-  secondAction,
-  tempNavState
+    firstAction
 );
 
 function nav(state = initialNavState, action) {
@@ -17,13 +14,13 @@ function nav(state = initialNavState, action) {
   switch (action.type) {
     case 'Login':
       nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.back(),
+        NavigationActions.navigate({ routeName: 'Home' }),
         state
       );
       break;
     case 'Logout':
       nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'Login' }),
+        NavigationActions.navigate({ routeName: 'drawerStack' }),
         state
       );
       break;

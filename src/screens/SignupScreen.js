@@ -12,7 +12,7 @@ export default class SignupScreen extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text> Signup Screen </Text>  
+                <Text> Create new account </Text>  
             </View>
         );
     }

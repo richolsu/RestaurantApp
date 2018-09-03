@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   welcome: {
     fontSize: 20,
@@ -16,14 +15,10 @@ const styles = StyleSheet.create({
   },
 });
 
-
 const LoginScreen = ({ navigation }) => (
   <View style={styles.container}>
     <Text style={styles.welcome}>
-      Screen A
-    </Text>
-    <Text style={styles.instructions}>
-      This is great
+      Sign In
     </Text>
     <Button
       onPress={() => navigation.dispatch({ type: 'Login' })}
@@ -34,10 +29,6 @@ const LoginScreen = ({ navigation }) => (
 
 LoginScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
-};
-
-LoginScreen.navigationOptions = {
-  title: 'Log In',
 };
 
 export default LoginScreen;

@@ -1,7 +1,6 @@
-import React from 'react'
-import { TouchableHighlight, StyleSheet, Text, View, Image } from 'react-native'
-import { NavigationActions } from 'react-navigation'
-import MenuButton from '../components/MenuButton'
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import MenuButton from '../components/MenuButton';
 
 export default class DrawerContainer extends React.Component {
 

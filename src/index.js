@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import DetailsScreen from './screens/DetailsScreen';
 import HomeScreen from './screens/HomeScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
@@ -16,8 +16,16 @@ import SignupScreen from './screens/SignupScreen';
 
 import ShoppingCartButton from './components/ShoppingCartButton';
 
+export default createDrawerNavigator({
+    Home: {screen: HomeScreen,},
+    Cart: {screen: CartScreen,},
+}, {
+    drawerPosition: 'left',
+    initialRouteName: 'Home',
+    drawerWidth: 200,
+});
 
-export default createStackNavigator(
+const app = createStackNavigator(
     {
         Home: HomeScreen,
         Welcome: WelcomeScreen,

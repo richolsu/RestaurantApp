@@ -4,8 +4,16 @@ import ShoppingCartButton from '../components/ShoppingCartButton'
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
-        headerLeft: <ShoppingCartButton />
+        drawerLabel: 'Home',
+        drawerIcon: ({ tintColor }) => (
+            <Image
+                source={require('../../assets/icons/home.png')}
+                style={[styles.icon, {tintColor: tintColor}]}
+            />
+        ),
+        headerLeft: <Image source = {require('../../assets/icons/home.png')} />
     };
+
 
     render() {
         return (
@@ -14,7 +22,7 @@ export default class HomeScreen extends React.Component {
                 <Image source = {require('../../assets/icons/menu.png')} />
                 <Button
                     title="Go to Food"
-                    onPress={() => this.props.navigation.navigate('FoodDetail')}
+                    onPress={() => this.props.navigation.openDrawer()}
                 />
                 <Button
                     title="Go to Categories"

@@ -4,7 +4,7 @@ import HeaderSearch from '../components/HeaderSearch';
 
 export default class CategoryListScreen extends React.Component {
     static navigationOptions = {
-        title: 'Categories',
+        title: 'Menu',
     };
     
 

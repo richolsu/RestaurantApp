@@ -32,7 +32,7 @@ const middleware = createReactNavigationReduxMiddleware(
     state => state.nav
 );
 
-const HomeNavigation = StackNavigator({
+const MainNavigation = StackNavigator({
     Home: HomeScreen,
     Cart: CartScreen,
     OrderList: OrderListScreen,
@@ -42,82 +42,32 @@ const HomeNavigation = StackNavigator({
     FoodDetail: FoodDetailScreen,
     CategoryList: CategoryListScreen,
     Details: DetailsScreen,
-  }, {
+}, {
     initialRouteName: 'Home',
     headerMode: 'float',
-    navigationOptions: ({navigation}) => ({
-      headerStyle: {backgroundColor: '#4C3E54'},
-      title: 'Welcome!',
-      headerTintColor: 'white',
-      headerRight: (
-        <ShoppingCartButton />
-    ),
-    //   gesturesEnabled: false,
-    //   headerLeft: drawerButton(navigation)
+    navigationOptions: ({ navigation }) => ({
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            textAlign: 'center',
+            alignSelf: 'center',
+            flex: 1,
+            fontFamily: 'FallingSkyCond',
+        },
+        headerRight: (
+            <ShoppingCartButton />
+        ),
     })
-  })
-  
-  const CartNavigation = StackNavigator({
-    Cart: CartScreen,
-    OrderList: OrderListScreen,
-    Reservation: ReservationScreen,
-    Search: SearchScreen,
-    FoodList: FoodListScreen,
-    FoodDetail: FoodDetailScreen,
-    CategoryList: CategoryListScreen,
-    Details: DetailsScreen,
-  }, {
-    headerMode: 'float',
-    initialRouteName: 'Cart',
-    navigationOptions: ({navigation}) => ({
-      headerStyle: {backgroundColor: '#4C3E54'},
-      title: 'Welcome!',
-      headerTintColor: 'white',
-      gesturesEnabled: false,
-      headerLeft: drawerButton(navigation)
-    })
-  })
+})
 
 // drawer stack
 const DrawerStack = DrawerNavigator({
-    Home: HomeNavigation,
-    Cart: CartNavigation,
+    Main: MainNavigation
 }, {
-    drawerPosition: 'left',
-    initialRouteName: 'Cart',
-    drawerWidth: 350,
-    contentComponent: DrawerContainer
-})
-
-
-const drawerButton = (navigation) =>
-  <Text
-    style={{padding: 5, color: 'white'}}
-    onPress={() => {
-        alert("you clicked me");
-      // Coming soon: navigation.navigate('DrawerToggle')
-      // https://github.com/react-community/react-navigation/pull/2492
-      if (navigation.state.index === 0) {
-        navigation.openDrawer()        
-      } else {
-        navigation.closeDrawer()
-      }
-    }
-  }>Menu</Text>
-
-
-const DrawerNavigation = StackNavigator({
-  DrawerStack: { screen: DrawerStack }
-}, {
-  headerMode: 'float',
-  navigationOptions: ({navigation}) => ({
-    headerStyle: {backgroundColor: '#4C3E54'},
-    title: 'Welcome!',
-    headerTintColor: 'white',
-    // gesturesEnabled: false,
-    // headerLeft: drawerButton(navigation)
-  })
-})
+        drawerPosition: 'left',
+        initialRouteName: 'Main',
+        drawerWidth: 350,
+        contentComponent: DrawerContainer
+    })
 
 
 // login stack
@@ -139,12 +89,12 @@ const RootNavigator = StackNavigator({
     loginStack: { screen: LoginStack },
     drawerStack: { screen: DrawerStack }
 }, {
-    // Default config for all screens
-    headerMode: 'none',
-    title: 'Main',
-    initialRouteName: 'loginStack',
-    transitionConfig: noTransitionConfig
-})
+        // Default config for all screens
+        headerMode: 'none',
+        title: 'Main',
+        initialRouteName: 'loginStack',
+        transitionConfig: noTransitionConfig
+    })
 
 
 

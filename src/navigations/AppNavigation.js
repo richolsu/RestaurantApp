@@ -85,8 +85,7 @@ const DrawerStack = DrawerNavigator({
 }, {
     drawerPosition: 'left',
     initialRouteName: 'Cart',
-    drawerWidth: 200,
-    // gesturesEnabled: false,
+    drawerWidth: 350,
     contentComponent: DrawerContainer
 })
 

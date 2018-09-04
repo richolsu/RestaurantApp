@@ -9,14 +9,15 @@ export const AppStyles = {
     grey: 'grey'
   },
   fontSize: {
-    title: 40,
+    title: 30,
     content: 20,
+    normal: 16,
   },
   buttonWidth: {
-    main: '80%',
+    main: '70%',
   },
   textInputWidth: {
-    main: '90%'
+    main: '80%'
   },
   fontName: {
     main: 'FallingSky',
@@ -77,6 +78,8 @@ export const TextStyle = StyleSheet.create({
     marginLeft: 20
   }, 
   content: {
+    paddingLeft:50,
+    paddingRight:50,    
     textAlign: 'center',
     fontFamily: AppStyles.fontName.main,
     fontSize:AppStyles.fontSize.content,
@@ -87,7 +90,6 @@ export const TextStyle = StyleSheet.create({
 export const TextInputStyle = StyleSheet.create({
   container: {
     width: AppStyles.textInputWidth.main,
-    color: AppStyles.color.main,
     marginTop: 30,
     borderWidth: 1,
     borderStyle: 'solid',
@@ -98,5 +100,57 @@ export const TextInputStyle = StyleSheet.create({
   }, 
   body: {
     color: AppStyles.color.text,
+  }
+});
+
+export const FoodListItemStyle = StyleSheet.create({
+  title: {
+    fontWeight:'bold',
+    color: AppStyles.color.text,
+    fontFamily: AppStyles.fontName.bold,
+  },
+  subtitleView: {
+    paddingTop: 5
+  },
+  description: {
+    color: AppStyles.color.text,
+    fontFamily: AppStyles.fontName.bold,
+    paddingLeft: 10,
+  },
+  price: {
+    fontWeight:'bold',
+    color: AppStyles.color.text,
+    fontFamily: AppStyles.fontName.bold,
+    marginTop: 10,
+    paddingLeft: 10,
+  },
+  rightIcon: {
+    width: 90,
+    height: 90
+  }
+});
+
+
+export const CategoryListItemStyle = StyleSheet.create({
+  container: {
+    flex:1,
+    width: 200,
+    height: 200,
+    marginLeft:10,
+    marginTop:10,    
+    backgroundColor: 'green',
+    alignItems: 'center', 
+    justifyContent: 'center', 
+  },
+
+  title: {
+    fontWeight:'bold',
+    color: AppStyles.color.text,
+    fontFamily: AppStyles.fontName.bold,
+  },
+  image: {
+    height: 200,
+    width: '50%',
+    flex:1
   }
 });

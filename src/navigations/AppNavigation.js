@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import ShoppingCartButton from '../components/ShoppingCartButton';
 import CartScreen from '../screens/CartScreen';
 import CategoryListScreen from '../screens/CategoryListScreen';
-import DetailsScreen from '../screens/DetailsScreen';
 import DrawerContainer from '../screens/DrawerContainer';
 import FoodDetailScreen from '../screens/FoodDetailScreen';
 import FoodListScreen from '../screens/FoodListScreen';
@@ -32,20 +31,6 @@ const middleware = createReactNavigationReduxMiddleware(
   state => state.nav
 );
 
-const drawerButton = (navigation) =>
-  <Text
-    style={{padding: 5, color: 'white'}}
-    onPress={() => {
-      // Coming soon: navigation.navigate('DrawerToggle')
-      // https://github.com/react-community/react-navigation/pull/2492
-      if (navigation.state.index === 0) {
-        navigation.navigate('DrawerOpen')
-      } else {
-        navigation.navigate('DrawerClose')
-      }
-    }
-  }>Menu</Text>
-
 const MainNavigation = StackNavigator({
   Home: HomeScreen,
   Cart: CartScreen,
@@ -55,7 +40,6 @@ const MainNavigation = StackNavigator({
   FoodList: FoodListScreen,
   FoodDetail: FoodDetailScreen,
   CategoryList: CategoryListScreen,
-  Details: DetailsScreen,
 }, {
     initialRouteName: 'Home',
     headerMode: 'float',
@@ -80,7 +64,7 @@ const DrawerStack = DrawerNavigator({
 }, {
   drawerPosition: 'left',
   initialRouteName: 'Main',
-  drawerWidth: 350,
+  drawerWidth: 250,
   contentComponent: DrawerContainer
 })
 

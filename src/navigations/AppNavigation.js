@@ -41,7 +41,7 @@ const MainNavigation = StackNavigator({
   FoodDetail: FoodDetailScreen,
   CategoryList: CategoryListScreen,
 }, {
-    initialRouteName: 'Home',
+    initialRouteName: 'Cart',
     headerMode: 'float',
     navigationOptions: ({ navigation }) => ({
       headerTitleStyle: {
@@ -53,7 +53,7 @@ const MainNavigation = StackNavigator({
       },
       
       headerRight: (
-        <ShoppingCartButton />
+        <ShoppingCartButton onPress={()=>{navigation.navigate('Cart')}}/>
       ),
     })
   })

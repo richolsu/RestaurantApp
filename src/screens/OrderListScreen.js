@@ -3,15 +3,13 @@ import { TouchableOpacity, StyleSheet, Image, View, Text, FlatList, ActivityIndi
 import { List, ListItem, SearchBar } from "react-native-elements";
 import { AppStyles, ButtonStyle, TextStyle, TextInputStyle } from '../AppStyles'
 import Button from 'react-native-button';
+import Hamburger from '../components/Hamburger';
 
 class OrderListScreen extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     title: 'Orders',
-    headerLeft:
-      <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
-        <Image source={require('../../assets/icons/home.png')} />
-      </TouchableOpacity>
+    headerLeft: <Hamburger onPress={()=>{navigation.openDrawer()}}/>
   });
 
   constructor(props) {

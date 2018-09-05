@@ -1,14 +1,11 @@
 import React from 'react';
 import { TouchableOpacity, Image, Text, View } from 'react-native';
-import HeaderSearch from '../components/HeaderSearch';
+import Hamburger from '../components/Hamburger';
 
 export default class SearchScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'Search',
-    headerLeft:
-      <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
-        <Image source={require('../../assets/icons/home.png')} />
-      </TouchableOpacity>
+    headerLeft: <Hamburger onPress={()=>{navigation.openDrawer()}}/>
   });
 
 

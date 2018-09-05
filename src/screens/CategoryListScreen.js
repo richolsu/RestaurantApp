@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { StyleSheet, Dimensions, Platform, TouchableOpacity, Image, View, Text, FlatList, ActivityIndicator } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
-import { AppStyles } from '../AppStyles'
-
+import { AppStyles } from '../AppStyles';
+import Hamburger from '../components/Hamburger';
 
 // screen sizing
 const { width, height } = Dimensions.get('window');
@@ -19,10 +19,7 @@ class CategoryListScreen extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     title: 'Menu',
-    headerLeft:
-      <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
-        <Image source={require('../../assets/icons/home.png')} />
-      </TouchableOpacity>
+    headerLeft: <Hamburger onPress={()=>{navigation.openDrawer()}}/>
   });
 
   constructor(props) {

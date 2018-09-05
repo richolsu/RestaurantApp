@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Hamburger from '../components/Hamburger';
+
 
 const HomeScreen = ({ navigation }) => (
   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -37,10 +39,7 @@ const HomeScreen = ({ navigation }) => (
 );
 
 HomeScreen.navigationOptions = ({ navigation }) => ({
-  headerLeft:
-    <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
-      <Image source={require('../../assets/icons/home.png')} />
-    </TouchableOpacity>
+  headerLeft: <Hamburger onPress={()=>{navigation.openDrawer()}}/>
 });
 
 

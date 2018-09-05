@@ -1,22 +1,199 @@
-import React from 'react';
-import { TouchableOpacity, Image, Text, View } from 'react-native';
-import HeaderSearch from '../components/HeaderSearch';
+import React, { Component } from "react";
+import { TouchableOpacity, StyleSheet, Image, View, Text, FlatList, ActivityIndicator } from "react-native";
+import { List, ListItem, SearchBar } from "react-native-elements";
+import { AppStyles, ButtonStyle, TextStyle, TextInputStyle } from '../AppStyles'
+import Button from 'react-native-button';
+import Hamburger from '../components/Hamburger';
 
-export default class CartScreen extends React.Component {
+class CartScreen extends Component {
+
   static navigationOptions = ({ navigation }) => ({
-    title: 'Cart',
-    headerLeft:
-      <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
-        <Image source={require('../../assets/icons/home.png')} />
-      </TouchableOpacity>
+    title: 'Your Cart',
+    headerLeft: <Hamburger onPress={()=>{navigation.openDrawer()}}/>,
+    headerRight: <View></View>,
   });
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: false,
+      data: [],
+      page: 1,
+      seed: 1,
+      error: null,
+      refreshing: false
+    };
+  }
+
+  componentDidMount() {
+    this.makeRemoteRequest();
+  }
+
+  json = require('../jsons/cart.json');
+
+  makeRemoteRequest = () => {
+    const { page, seed } = this.state;
+    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+    this.setState({ loading: true });
+
+    fetch(url)
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          // data: page === 1 ? res.results : [...this.state.data, ...res.results],
+          data: this.json.results,
+          error: res.error || null,
+          loading: false,
+          refreshing: false
+        });
+      })
+      .catch(error => {
+        this.setState({ error, loading: false });
+      });
+  };
+
+  handleRefresh = () => {
+    this.setState(
+      {
+        page: 1,
+        seed: this.state.seed + 1,
+        refreshing: true
+      },
+      () => {
+        this.makeRemoteRequest();
+      }
+    );
+  };
+
+  handleLoadMore = () => {
+    this.setState(
+      {
+        page: this.state.page + 1
+      },
+      () => {
+        this.makeRemoteRequest();
+      }
+    );
+  };
+
+  renderSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: "86%",
+          backgroundColor: "#CED0CE",
+          marginLeft: "14%"
+        }}
+      />
+    );
+  };
+
+  renderHeader = () => {
+    return <SearchBar placeholder="Type Here..." lightTheme round />;
+  };
+
+  renderFooter = () => {
+
+    return (
+      <View style={styles.container}>
+        <View style={styles.rowContainer}>
+          <Text style={styles.title}>Total</Text>
+          <Text style={styles.price}>${this.state.data.reduce((prev, next) => prev + next.price * next.count, 0) }</Text>
+        </View>
+      </View>
+    );
+  };
+
+  onPress = (item) => {
+    this.props.navigation.navigate('FoodDetail');
+  }
+
+  renderItem = ({ item }) => (
+    <View style={styles.container}>
+      <View style={styles.rowContainer} key={item.id}>
+        <Text style={styles.count}>{item.count}</Text>
+        <Text style={styles.title}>{item.name}</Text>
+        <Text style={styles.price}>${item.price}</Text>
+      </View>
+    </View>
+  );
 
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text> Cart Screen </Text>
+      <View style={styles.container}>
+        <FlatList style={styles.flat}
+          data={this.state.data}
+          renderItem={this.renderItem}
+          keyExtractor={item => `${item.id}`}
+          // ItemSeparatorComponent={this.renderSeparator}
+          // ListHeaderComponent={this.renderHeader}
+          ListFooterComponent={this.renderFooter}
+          onRefresh={this.handleRefresh}
+          refreshing={this.state.refreshing}
+          onEndReached={this.handleLoadMore}
+          onEndReachedThreshold={50}
+        />
+        <Button containerStyle={styles.actionButtonContainer} style={styles.actionButtonText}
+          onPress={() => this.props.navigation.dispatch({ type: 'Cart' })}>PLACE ORDER</Button>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 30,
+    flex: 1,
+    backgroundColor: AppStyles.color.white
+  },
+  flat: {
+    flex: 1,
+    margin: 10,
+    backgroundColor: AppStyles.color.white
+  },
+  rowContainer: {
+    flexDirection: 'row',
+  },
+  count: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 1,
+    borderWidth: 1,
+    fontWeight: 'bold',
+    paddingLeft: 5,
+    paddingRight: 5,
+    textAlign: 'center',
+    color: AppStyles.color.main,
+    borderColor: AppStyles.color.grey,
+  },
+  price: {
+    padding: 10,
+    color: AppStyles.color.text,
+    fontFamily: AppStyles.fontName.bold,
+    fontWeight: 'bold',
+    textAlign: "center",
+  },
+  title: {
+    flex: 1,
+    padding: 10,
+    color: AppStyles.color.text,
+    fontFamily: AppStyles.fontName.bold,
+    fontWeight: 'bold',
+    textAlign: "left",
+  },
+  actionButtonContainer: {
+    padding: 10,
+    backgroundColor: AppStyles.color.main
+  },
+  actionButtonText: {
+    color: AppStyles.color.white
+  }
+
+});
+
+
+export default CartScreen;

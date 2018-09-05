@@ -35,8 +35,8 @@ export const ButtonStyle = StyleSheet.create({
     backgroundColor: AppStyles.color.main,
     borderRadius: AppStyles.borderRadius.main,
     padding: 10,
-    marginTop: 30, 
-  },    
+    marginTop: 30,
+  },
   loginText: {
     color: AppStyles.color.white
   },
@@ -45,10 +45,10 @@ export const ButtonStyle = StyleSheet.create({
     backgroundColor: AppStyles.color.white,
     borderRadius: AppStyles.borderRadius.main,
     padding: 10,
-    borderWidth:1,
-    borderColor:AppStyles.color.text,
-    marginTop: 30, 
-  },    
+    borderWidth: 1,
+    borderColor: AppStyles.color.text,
+    marginTop: 30,
+  },
   signupText: {
     color: AppStyles.color.text
   },
@@ -57,32 +57,41 @@ export const ButtonStyle = StyleSheet.create({
     backgroundColor: AppStyles.color.facebook,
     borderRadius: AppStyles.borderRadius.main,
     padding: 10,
-    marginTop: 30, 
-  },    
+    marginTop: 30,
+  },
   facebookText: {
     color: AppStyles.color.white
   },
+  headerButtonContainer: {
+    padding: 10
+  },
+  headerButtonImage: {
+    justifyContent: 'center',
+    width: 35,
+    height: 35,
+    margin: 6
+  }
 });
 
 export const TextStyle = StyleSheet.create({
   title: {
-    fontSize:AppStyles.fontSize.title,
+    fontSize: AppStyles.fontSize.title,
     fontFamily: AppStyles.fontName.bold,
     color: AppStyles.color.main,
     marginTop: 20,
     marginBottom: 20,
-  },   
+  },
   leftTitle: {
     alignSelf: 'stretch',
     textAlign: 'left',
     marginLeft: 20
-  }, 
+  },
   content: {
-    paddingLeft:50,
-    paddingRight:50,    
+    paddingLeft: 50,
+    paddingRight: 50,
     textAlign: 'center',
     fontFamily: AppStyles.fontName.main,
-    fontSize:AppStyles.fontSize.content,
+    fontSize: AppStyles.fontSize.content,
     color: AppStyles.color.text,
   }
 });
@@ -97,7 +106,7 @@ export const TextInputStyle = StyleSheet.create({
     borderRadius: AppStyles.borderRadius.main,
     paddingLeft: 10,
     paddingRight: 10
-  }, 
+  },
   body: {
     color: AppStyles.color.text,
   }
@@ -105,7 +114,7 @@ export const TextInputStyle = StyleSheet.create({
 
 export const FoodListItemStyle = StyleSheet.create({
   title: {
-    fontWeight:'bold',
+    fontWeight: 'bold',
     color: AppStyles.color.text,
     fontFamily: AppStyles.fontName.bold,
   },
@@ -118,7 +127,7 @@ export const FoodListItemStyle = StyleSheet.create({
     paddingLeft: 10,
   },
   price: {
-    fontWeight:'bold',
+    fontWeight: 'bold',
     color: AppStyles.color.text,
     fontFamily: AppStyles.fontName.bold,
     marginTop: 10,
@@ -133,24 +142,24 @@ export const FoodListItemStyle = StyleSheet.create({
 
 export const CategoryListItemStyle = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     width: 200,
     height: 200,
-    marginLeft:10,
-    marginTop:10,    
+    marginLeft: 10,
+    marginTop: 10,
     backgroundColor: 'green',
-    alignItems: 'center', 
-    justifyContent: 'center', 
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   title: {
-    fontWeight:'bold',
+    fontWeight: 'bold',
     color: AppStyles.color.text,
     fontFamily: AppStyles.fontName.bold,
   },
   image: {
     height: 200,
     width: '50%',
-    flex:1
+    flex: 1
   }
 });

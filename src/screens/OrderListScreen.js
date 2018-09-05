@@ -1,14 +1,18 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, View, Text, FlatList, ActivityIndicator } from "react-native";
+import { TouchableOpacity, StyleSheet, Image, View, Text, FlatList, ActivityIndicator } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
 import { AppStyles, ButtonStyle, TextStyle, TextInputStyle } from '../AppStyles'
 import Button from 'react-native-button';
 
 class OrderListScreen extends Component {
 
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     title: 'Orders',
-  };
+    headerLeft:
+      <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
+        <Image source={require('../../assets/icons/home.png')} />
+      </TouchableOpacity>
+  });
 
   constructor(props) {
     super(props);
@@ -125,7 +129,7 @@ class OrderListScreen extends Component {
           );
         })}
       <View style={styles.actionContainer}>
-        <Text style={styles.total}>Total:${(item.list.reduce((prev,next) => prev + next.price * next.count,0) + 1).toFixed(1)}</Text>
+        <Text style={styles.total}>Total:${(item.list.reduce((prev, next) => prev + next.price * next.count, 0) + 1).toFixed(1)}</Text>
         <Button containerStyle={styles.actionButtonContainer} style={styles.actionButtonText}
           onPress={() => this.props.navigation.dispatch({ type: 'Cart' })}>REORDER</Button>
       </View>

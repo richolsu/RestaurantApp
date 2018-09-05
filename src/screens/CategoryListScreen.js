@@ -17,9 +17,13 @@ const PRODUCT_ITEM_MARGIN = PRODUCT_ITEM_OFFSET * 2;
 
 class CategoryListScreen extends Component {
 
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     title: 'Menu',
-  };
+    headerLeft:
+      <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
+        <Image source={require('../../assets/icons/home.png')} />
+      </TouchableOpacity>
+  });
 
   constructor(props) {
     super(props);

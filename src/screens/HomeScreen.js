@@ -37,18 +37,10 @@ const HomeScreen = ({ navigation }) => (
 );
 
 HomeScreen.navigationOptions = ({ navigation }) => ({
-  drawerLabel: 'Home',
-  drawerIcon: () => (
-    <Image
-      source={require('../../assets/icons/home.png')}
-      style={styles.icon}
-    />
-  ),
-  headerLeft: 
+  headerLeft:
     <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
       <Image source={require('../../assets/icons/home.png')} />
     </TouchableOpacity>
-  
 });
 
 

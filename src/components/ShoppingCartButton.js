@@ -6,7 +6,7 @@ export default class ShoppingCartButton extends React.Component {
     render() {
       return (
         <View style={styles.container}>
-          <TouchableOpacity onPress={()=>{alert("you clicked me")}}>
+          <TouchableOpacity onPress={()=>{this.props.onPress}}>
           
             <IconBadge
               MainElement={

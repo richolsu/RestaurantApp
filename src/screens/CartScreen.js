@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import { TouchableOpacity, StyleSheet, Image, View, Text, FlatList, ActivityIndicator } from "react-native";
-import { List, ListItem, SearchBar } from "react-native-elements";
-import { AppStyles, ButtonStyle, TextStyle, TextInputStyle } from '../AppStyles'
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import Button from 'react-native-button';
+import { SearchBar } from "react-native-elements";
+import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
 
 class CartScreen extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     title: 'Your Cart',
-    headerLeft: <Hamburger onPress={()=>{navigation.openDrawer()}}/>,
+    headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />,
     headerRight: <View></View>,
   });
 
@@ -100,7 +100,7 @@ class CartScreen extends Component {
       <View style={styles.container}>
         <View style={styles.rowContainer}>
           <Text style={styles.title}>Total</Text>
-          <Text style={styles.price}>${this.state.data.reduce((prev, next) => prev + next.price * next.count, 0) }</Text>
+          <Text style={styles.price}>${this.state.data.reduce((prev, next) => prev + next.price * next.count, 0)}</Text>
         </View>
       </View>
     );

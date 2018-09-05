@@ -1,9 +1,8 @@
 import React from 'react';
-import { ScrollView, StyleSheet, FlatList, Image, Text, View, Dimensions } from 'react-native';
-import { AppStyles, ButtonStyle, TextStyle, TextInputStyle } from '../AppStyles'
-import Button from 'react-native-button';
-import Hamburger from '../components/Hamburger';
+import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+import { AppStyles } from '../AppStyles';
+import Hamburger from '../components/Hamburger';
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
@@ -190,7 +189,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // backgroundColor: 'green',
     paddingVertical: 8,
-    marginTop:150,
+    marginTop: 150,
   },
   paginationDot: {
     width: 8,

@@ -1,7 +1,7 @@
 import React from 'react';
-import { ScrollView, TextInput, StyleSheet, FlatList, Image, Text, View } from 'react-native';
-import { AppStyles, ButtonStyle, TextStyle, TextInputStyle } from '../AppStyles'
+import { Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Button from 'react-native-button';
+import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
 
 export default class FoodDetailScreen extends React.Component {

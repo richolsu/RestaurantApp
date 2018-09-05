@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Image, View, Text, FlatList, ActivityIndicator } from "react-native";
-import { List, ListItem, SearchBar } from "react-native-elements";
-import { FoodListItemStyle } from '../AppStyles'
+import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
+import { ListItem, SearchBar } from "react-native-elements";
+import { FoodListItemStyle } from '../AppStyles';
 
 class FootListScreen extends Component {
 
@@ -129,18 +129,18 @@ class FootListScreen extends Component {
 
   render() {
     return (
-        <FlatList
-          data={this.state.data}
-          renderItem={this.renderItem}
-          keyExtractor={item => `${item.id}`}
-          // ItemSeparatorComponent={this.renderSeparator}
-          // ListHeaderComponent={this.renderHeader}
-          ListFooterComponent={this.renderFooter}
-          onRefresh={this.handleRefresh}
-          refreshing={this.state.refreshing}
-          onEndReached={this.handleLoadMore}
-          onEndReachedThreshold={50}
-        />
+      <FlatList
+        data={this.state.data}
+        renderItem={this.renderItem}
+        keyExtractor={item => `${item.id}`}
+        // ItemSeparatorComponent={this.renderSeparator}
+        // ListHeaderComponent={this.renderHeader}
+        ListFooterComponent={this.renderFooter}
+        onRefresh={this.handleRefresh}
+        refreshing={this.state.refreshing}
+        onEndReached={this.handleLoadMore}
+        onEndReachedThreshold={50}
+      />
     );
   }
 }

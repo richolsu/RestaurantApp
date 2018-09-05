@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Image, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import Button from 'react-native-button';
-import { ButtonStyle, TextStyle } from '../AppStyles'
+import { ButtonStyle, TextStyle } from '../AppStyles';
 
 export default class WelcomeScreen extends React.Component {
   static navigationOptions = {
@@ -28,9 +28,9 @@ export default class WelcomeScreen extends React.Component {
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
-    alignItems: 'center', 
-    justifyContent: 'center', 
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 150
   },
   logo: {

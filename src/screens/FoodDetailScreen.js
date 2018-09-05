@@ -1,7 +1,7 @@
 import React from 'react';
-import { ScrollView,StyleSheet, FlatList, Image, Text, View } from 'react-native';
-import { AppStyles, ButtonStyle, TextStyle, TextInputStyle } from '../AppStyles'
+import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Button from 'react-native-button';
+import { AppStyles } from '../AppStyles';
 
 export default class FoodDetailScreen extends React.Component {
   static navigationOptions = {
@@ -98,10 +98,10 @@ const styles = StyleSheet.create({
   photo: {
     height: 300,
   },
-  detail: { 
-    height: 60, 
-    width: 100, 
-    marginRight: 10 
+  detail: {
+    height: 60,
+    width: 100,
+    marginRight: 10
   },
   detailPhotos: {
     height: 60,

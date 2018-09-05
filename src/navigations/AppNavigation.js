@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, Easing, Text } from 'react-native';
+import { Animated, Easing } from 'react-native';
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
 import { createReactNavigationReduxMiddleware, reduxifyNavigator } from 'react-navigation-redux-helpers';
 import { connect } from 'react-redux';
@@ -51,9 +51,9 @@ const MainNavigation = StackNavigator({
         flex: 1,
         fontFamily: 'FallingSkyCond',
       },
-      
+
       headerRight: (
-        <ShoppingCartButton onPress={()=>{navigation.navigate('Cart')}}/>
+        <ShoppingCartButton onPress={() => { navigation.navigate('Cart') }} />
       ),
     })
   })
@@ -62,11 +62,11 @@ const MainNavigation = StackNavigator({
 const DrawerStack = DrawerNavigator({
   Main: MainNavigation
 }, {
-  drawerPosition: 'left',
-  initialRouteName: 'Main',
-  drawerWidth: 250,
-  contentComponent: DrawerContainer
-})
+    drawerPosition: 'left',
+    initialRouteName: 'Main',
+    drawerWidth: 250,
+    contentComponent: DrawerContainer
+  })
 
 
 // login stack
@@ -75,10 +75,10 @@ const LoginStack = StackNavigator({
   Signup: { screen: SignupScreen },
   Welcome: { screen: WelcomeScreen }
 }, {
-  initialRouteName: 'Welcome',
-  headerMode: 'float',
-  cardStyle: { backgroundColor: '#FFFFFF' },
-})
+    initialRouteName: 'Welcome',
+    headerMode: 'float',
+    cardStyle: { backgroundColor: '#FFFFFF' },
+  })
 
 
 // Manifest of possible screens
@@ -86,11 +86,11 @@ const RootNavigator = StackNavigator({
   loginStack: { screen: LoginStack },
   drawerStack: { screen: DrawerStack }
 }, {
-  // Default config for all screens
-  headerMode: 'none',
-  initialRouteName: 'loginStack',
-  transitionConfig: noTransitionConfig
-})
+    // Default config for all screens
+    headerMode: 'none',
+    initialRouteName: 'loginStack',
+    transitionConfig: noTransitionConfig
+  })
 
 
 

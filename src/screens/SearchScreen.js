@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Image, View, Text, FlatList, ActivityIndicator } from "react-native";
-import { List, ListItem, SearchBar } from "react-native-elements";
-import { FoodListItemStyle } from '../AppStyles'
+import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
+import { ListItem, SearchBar } from "react-native-elements";
+import { FoodListItemStyle } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
 
 class SearchScreen extends Component {
@@ -9,9 +9,9 @@ class SearchScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />,
     headerTitle:
-      <SearchBar 
-        containerStyle={{backgroundColor: 'white', flex: 1}}
-        inputStyle={{backgroundColor: 'rgba(0.8, 0.8, 0.8, 0.2)', borderRadius:10, color: 'black'}}
+      <SearchBar
+        containerStyle={{ backgroundColor: 'white', flex: 1 }}
+        inputStyle={{ backgroundColor: 'rgba(0.8, 0.8, 0.8, 0.2)', borderRadius: 10, color: 'black' }}
         showLoading
         clearIcon={true}
         searchIcon={true}
@@ -98,7 +98,7 @@ class SearchScreen extends Component {
   };
 
   renderHeader = () => {
-    return <SearchBar style={{ backgroundColor: 'red', padding:10, height:200 }}
+    return <SearchBar style={{ backgroundColor: 'red', padding: 10, height: 200 }}
       round
       lightTheme
       showLoading

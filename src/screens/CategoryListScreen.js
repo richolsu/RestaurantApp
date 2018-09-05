@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet, Dimensions, Platform, TouchableOpacity, Image, View, Text, FlatList, ActivityIndicator } from "react-native";
-import { List, ListItem, SearchBar } from "react-native-elements";
+import { ActivityIndicator, Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SearchBar } from "react-native-elements";
 import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
 
@@ -19,7 +19,7 @@ class CategoryListScreen extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     title: 'Menu',
-    headerLeft: <Hamburger onPress={()=>{navigation.openDrawer()}}/>
+    headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />
   });
 
   constructor(props) {

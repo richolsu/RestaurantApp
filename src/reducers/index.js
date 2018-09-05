@@ -1,12 +1,12 @@
-import { combineReducers } from 'redux';
 import { NavigationActions } from 'react-navigation';
-
+import { combineReducers } from 'redux';
 import { RootNavigator } from '../navigations/AppNavigation';
+
 
 // Start with two routes: The Main screen, with the Login screen on top.
 const firstAction = RootNavigator.router.getActionForPathAndParams('DrawerStack');
 const initialNavState = RootNavigator.router.getStateForAction(
-    firstAction
+  firstAction
 );
 
 function nav(state = initialNavState, action) {

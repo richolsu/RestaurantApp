@@ -1,7 +1,7 @@
 import React from 'react';
-import { TextInput, StyleSheet, Text, View } from 'react-native';
-import { AppStyles, ButtonStyle, TextStyle, TextInputStyle } from '../AppStyles'
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import Button from 'react-native-button';
+import { AppStyles, ButtonStyle, TextInputStyle, TextStyle } from '../AppStyles';
 
 const LoginScreen = ({ navigation }) => (
   <View style={styles.container}>
@@ -25,12 +25,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-  },  
+  },
   or: {
     fontFamily: AppStyles.fontName.main,
     color: 'black',
     marginTop: 40,
-    marginBottom:10
+    marginBottom: 10
   }
 });
 

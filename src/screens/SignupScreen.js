@@ -1,7 +1,7 @@
 import React from 'react';
-import { TextInput, StyleSheet, Text, View } from 'react-native';
-import { AppStyles, ButtonStyle, TextStyle, TextInputStyle } from '../AppStyles'
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import Button from 'react-native-button';
+import { AppStyles, ButtonStyle, TextInputStyle, TextStyle } from '../AppStyles';
 
 export default class SignupScreen extends React.Component {
   render() {

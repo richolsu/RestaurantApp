@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
@@ -52,31 +52,49 @@ export default class HomeScreen extends React.Component {
       });
   };
 
+  onPressCategoryItem = (item) => {
+    this.props.navigation.navigate('FoodList');
+  }
+
+  onPressDealItem = (item) => {
+    this.props.navigation.navigate('FoodList');
+  }
+
+  onPressFoodItem = (item) => {
+    this.props.navigation.navigate('FoodDetail');
+  }
+
   renderCategoryItem = ({ item }) => (
-    <View style={styles.categoryItemContainer}>
-      <Image style={styles.categoryItemPhoto} source={{ uri: item.photo }} />
-      <Text style={styles.categoryItemTitle}>{item.name}</Text>
-    </View>
-  );
-  renderFoodItem = ({ item }) => (
-    <View style={styles.foodItemContainer}>
-      <Image style={styles.foodPhoto} source={{ uri: item.photo }} />
-      <View style={styles.foodInfo}>
-        <Text style={styles.foodName}>{item.name}</Text>
-        <Text style={styles.foodPrice}>${item.price}</Text>
+    <TouchableOpacity onPress={() => this.onPressCategoryItem(item)}>
+      <View style={styles.categoryItemContainer}>
+        <Image style={styles.categoryItemPhoto} source={{ uri: item.photo }} />
+        <Text style={styles.categoryItemTitle}>{item.name}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
-  renderDealItem({ item, index }) {
-    return (
+  renderFoodItem = ({ item }) => (
+    <TouchableOpacity onPress={() => this.onPressDealItem(item)}>
+      <View style={styles.foodItemContainer}>
+        <Image style={styles.foodPhoto} source={{ uri: item.photo }} />
+        <View style={styles.foodInfo}>
+          <Text style={styles.foodName}>{item.name}</Text>
+          <Text style={styles.foodPrice}>${item.price}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
+  renderDealItem = ({ item }) => (
+    <TouchableOpacity onPress={() => this.onPressFoodItem(item)}>
       <View style={styles.dealItemContainer}>
         <Image style={StyleSheet.absoluteFillObject} source={{ uri: item.photo }} />
         <View style={styles.overlay} />
         <Text style={styles.dealName}>{item.name}</Text>
       </View>
-    );
-  }
+    </TouchableOpacity>
+  );
+
   render() {
     const { activeSlide } = this.state;
 

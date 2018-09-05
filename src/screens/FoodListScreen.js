@@ -129,7 +129,6 @@ class FootListScreen extends Component {
 
   render() {
     return (
-      <List containerStyle={{ backgroundColor: 'transparent', borderTopWidth: 0, borderBottomWidth: 0 }}>
         <FlatList
           data={this.state.data}
           renderItem={this.renderItem}
@@ -142,7 +141,6 @@ class FootListScreen extends Component {
           onEndReached={this.handleLoadMore}
           onEndReachedThreshold={50}
         />
-      </List>
     );
   }
 }

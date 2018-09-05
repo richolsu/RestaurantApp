@@ -126,11 +126,11 @@ class CategoryListScreen extends Component {
     <TouchableOpacity onPress={() => this.onPress(item)}>
       <View style={style.container}>
         <Image style={StyleSheet.absoluteFillObject} source={{ uri: item.photo }} />
-        <View style={style.overlay}/>
+        <View style={style.overlay} />
         <Text numberOfLines={3} style={style.title}>
           {item.name}
         </Text>
-      </View>    
+      </View>
     </TouchableOpacity>
   );
 
@@ -145,24 +145,22 @@ class CategoryListScreen extends Component {
 
   render() {
     return (
-      <List containerStyle={{ backgroundColor: 'transparent', borderTopWidth: 0, borderBottomWidth: 0 }}>
-        <FlatList
-          vertical
-          showsVerticalScrollIndicator={false}
-          numColumns={2}
-          data={this.state.data}
-          renderItem={this.renderItem}
-          keyExtractor={item => `${item.id}`}
-          // ItemSeparatorComponent={this.renderSeparator}
-          // ListHeaderComponent={this.renderHeader}
-          // ListFooterComponent={this.renderFooter}
-          // onRefresh={this.handleRefresh}
-          // refreshing={this.state.refreshing}
-          // onEndReached={this.handleLoadMore}
-          // onEndReachedThreshold={50}
-          // getItemLayout={this._getItemLayout}
-        />
-      </List>
+      <FlatList
+        vertical
+        showsVerticalScrollIndicator={false}
+        numColumns={2}
+        data={this.state.data}
+        renderItem={this.renderItem}
+        keyExtractor={item => `${item.id}`}
+      // ItemSeparatorComponent={this.renderSeparator}
+      // ListHeaderComponent={this.renderHeader}
+      // ListFooterComponent={this.renderFooter}
+      // onRefresh={this.handleRefresh}
+      // refreshing={this.state.refreshing}
+      // onEndReached={this.handleLoadMore}
+      // onEndReachedThreshold={50}
+      // getItemLayout={this._getItemLayout}
+      />
     );
   }
 }

@@ -2,11 +2,13 @@ import React from 'react';
 import { ScrollView, TextInput, StyleSheet, FlatList, Image, Text, View } from 'react-native';
 import { AppStyles, ButtonStyle, TextStyle, TextInputStyle } from '../AppStyles'
 import Button from 'react-native-button';
+import Hamburger from '../components/Hamburger';
 
 export default class FoodDetailScreen extends React.Component {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     title: 'Reservations',
-  };
+    headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />,
+  });
 
   constructor(props) {
     super(props);

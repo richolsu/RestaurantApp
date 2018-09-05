@@ -41,7 +41,7 @@ const MainNavigation = StackNavigator({
   FoodDetail: FoodDetailScreen,
   CategoryList: CategoryListScreen,
 }, {
-    initialRouteName: 'Reservation',
+    initialRouteName: 'Home',
     headerMode: 'float',
     navigationOptions: ({ navigation }) => ({
       headerTitleStyle: {

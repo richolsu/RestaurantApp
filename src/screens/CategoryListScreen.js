@@ -138,14 +138,6 @@ class CategoryListScreen extends Component {
     </TouchableOpacity>
   );
 
-  _getItemLayout = (data, index) => {
-    const productHeight = PRODUCT_ITEM_HEIGHT + PRODUCT_ITEM_MARGIN;
-    return {
-      length: productHeight,
-      offset: productHeight * index,
-      index,
-    };
-  };
 
   render() {
     return (

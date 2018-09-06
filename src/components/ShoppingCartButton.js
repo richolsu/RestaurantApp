@@ -1,15 +1,16 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Image, Text, View } from 'react-native';
 import IconBadge from 'react-native-icon-badge';
+import { connect } from 'react-redux';
 
-export default class ShoppingCartButton extends React.Component {
+ class ShoppingCartButton extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    const { navigation } = this.props
-
+    const { cartItems } = this.props
+    console.log(this.props);
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={this.props.onPress}>
@@ -20,7 +21,7 @@ export default class ShoppingCartButton extends React.Component {
                 style={{ width: 35, height: 35, margin: 6 }} />
             }
             BadgeElement={
-              <Text style={{ color: '#FFFFFF' }}>12</Text>
+              <Text style={{ color: '#FFFFFF' }}>{cartItems.reduce((prev, next) => prev + next.count, 0)}</Text>
             }
             IconBadgeStyle={
               {
@@ -59,3 +60,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
   },
 });  
+
+
+const mapStateToProps = state => ({
+  cartItems: state.cart,
+});
+
+export default connect(mapStateToProps)(ShoppingCartButton);

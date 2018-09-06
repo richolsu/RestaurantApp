@@ -24,6 +24,12 @@ function nav(state = initialNavState, action) {
         state
       );
       break;
+    case 'PlaceOrder':
+      nextState = RootNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'OrderList' }),
+        state
+      );
+      break;
     default:
       nextState = RootNavigator.router.getStateForAction(action, state);
       break;
@@ -46,9 +52,21 @@ function auth(state = initialAuthState, action) {
   }
 }
 
+function cart(state = [], action) {
+  switch (action.type) {
+    case 'Add':
+      return [...state, action.item];
+    case 'PlaceOrder':
+      return [];
+    default:
+      return state;
+  }
+}
+
 const AppReducer = combineReducers({
   nav,
   auth,
+  cart,
 });
 
 export default AppReducer;

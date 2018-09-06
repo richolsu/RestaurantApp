@@ -17,6 +17,7 @@ export default class FoodDetailScreen extends React.Component {
     const { navigation } = props;
     const item = navigation.getParam('item');
     this.json.name = item.name;
+    this.json.price = item.price;
 
     this.state = {
       loading: false,
@@ -32,7 +33,7 @@ export default class FoodDetailScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.makeRemoteRequest();
+    // this.makeRemoteRequest();
   }
 
   onIncrease = () => {
@@ -45,7 +46,8 @@ export default class FoodDetailScreen extends React.Component {
   };
 
   onAddToCart = () => {
-    alert("added to cart");
+    item = {...this.state.data, count: this.state.count};
+    this.props.navigation.dispatch({type:'Add', item: item})
   };
 
 
@@ -116,7 +118,7 @@ export default class FoodDetailScreen extends React.Component {
           </View>
         </View>
         <View style={styles.actionContainer}>
-          <Text style={styles.price}>$11.00</Text>
+          <Text style={styles.price}>${this.state.data.price}</Text>
           <Button containerStyle={styles.actionButtonContainer} style={styles.actionButtonText}
             onPress={this.onAddToCart}>Add to Cart</Button>
         </View>

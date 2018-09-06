@@ -47,7 +47,7 @@ export default class FoodDetailScreen extends React.Component {
 
   onAddToCart = () => {
     item = {...this.state.data, count: this.state.count};
-    this.props.navigation.dispatch({type:'Add', item: item})
+    this.props.navigation.dispatch({type:'Add', item: item});
   };
 
 

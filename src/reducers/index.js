@@ -30,6 +30,18 @@ function nav(state = initialNavState, action) {
         state
       );
       break;
+    case 'Add':
+      nextState = RootNavigator.router.getStateForAction(
+        NavigationActions.back(),
+        state
+      );
+      break;
+    case 'Reorder':
+      nextState = RootNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'Cart' }),
+        state
+      );
+      break;
     default:
       nextState = RootNavigator.router.getStateForAction(action, state);
       break;
@@ -58,6 +70,8 @@ function cart(state = [], action) {
       return [...state, action.item];
     case 'PlaceOrder':
       return [];
+    case 'Reorder':
+      return [...state, ...action.items];      
     default:
       return state;
   }

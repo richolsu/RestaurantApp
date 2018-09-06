@@ -113,7 +113,7 @@ class OrderListScreen extends Component {
   };
 
   onPress = (item) => {
-    this.props.navigation.navigate('FoodDetail');
+    this.props.navigation.dispatch({type:'Reorder', items: item.list});
   }
 
   renderItem = ({ item }) => (
@@ -132,7 +132,7 @@ class OrderListScreen extends Component {
       <View style={styles.actionContainer}>
         <Text style={styles.total}>Total:${(item.list.reduce((prev, next) => prev + next.price * next.count, 0) + 1).toFixed(1)}</Text>
         <Button containerStyle={styles.actionButtonContainer} style={styles.actionButtonText}
-          onPress={() => this.props.navigation.dispatch({ type: 'Cart' })}>REORDER</Button>
+          onPress={() => this.onPress(item)}>REORDER</Button>
       </View>
     </View>
   );

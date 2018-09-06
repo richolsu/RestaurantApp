@@ -3,6 +3,7 @@ import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpa
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
+import AsyncImageAnimated from 'react-native-async-image-animated';
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
@@ -67,16 +68,16 @@ export default class HomeScreen extends React.Component {
   renderCategoryItem = ({ item }) => (
     <TouchableOpacity onPress={() => this.onPressCategoryItem(item)}>
       <View style={styles.categoryItemContainer}>
-        <Image style={styles.categoryItemPhoto} source={{ uri: item.photo }} />
+        <AsyncImageAnimated animationStyle={'fade'}  placeholderColor={AppStyles.color.placeholder} style={styles.categoryItemPhoto} source={{ uri: item.photo }} />
         <Text style={styles.categoryItemTitle}>{item.name}</Text>
       </View>
     </TouchableOpacity>
   );
 
   renderFoodItem = ({ item }) => (
-    <TouchableOpacity onPress={() => this.onPressDealItem(item)}>
+    <TouchableOpacity onPress={() => this.onPressFoodItem(item)}>
       <View style={styles.foodItemContainer}>
-        <Image style={styles.foodPhoto} source={{ uri: item.photo }} />
+        <AsyncImageAnimated animationStyle={'fade'}  placeholderColor={AppStyles.color.placeholder} style={styles.foodPhoto} source={{ uri: item.photo }} />
         <View style={styles.foodInfo}>
           <Text style={styles.foodName}>{item.name}</Text>
           <Text style={styles.foodPrice}>${item.price}</Text>
@@ -86,14 +87,25 @@ export default class HomeScreen extends React.Component {
   );
 
   renderDealItem = ({ item }) => (
-    <TouchableOpacity onPress={() => this.onPressFoodItem(item)}>
+    <TouchableOpacity onPress={() => this.onPressDealItem(item)}>
       <View style={styles.dealItemContainer}>
-        <Image style={StyleSheet.absoluteFillObject} source={{ uri: item.photo }} />
+        <AsyncImageAnimated animationStyle={'fade'}  placeholderColor={AppStyles.color.placeholder} style={styles.dealPhoto} source={{ uri: item.photo }} />
         <View style={styles.overlay} />
         <Text style={styles.dealName}>{item.name}</Text>
       </View>
     </TouchableOpacity>
   );
+
+  renderCategorySeparator = () => {
+    return (
+      <View
+        style={{
+          width: 10,
+          height: "100%",
+        }}
+      />
+    );
+  };
 
   render() {
     const { activeSlide } = this.state;
@@ -104,6 +116,8 @@ export default class HomeScreen extends React.Component {
         <View style={styles.categories}>
           <FlatList
             horizontal={true}
+            initialNumToRender={4}
+            // ItemSeparatorComponent={this.renderCategorySeparator}
             data={this.state.data.categories}
             renderItem={this.renderCategoryItem}
             keyExtractor={item => `${item.id}`}
@@ -111,39 +125,42 @@ export default class HomeScreen extends React.Component {
         </View>
         <Text style={styles.title}> Best Deals </Text>
         <View style={styles.deals}>
-          <Carousel
-            ref={(c) => { this._slider1Ref = c; }}
-            data={this.state.data.deals}
-            renderItem={this.renderDealItem}
-            sliderWidth={viewportWidth}
-            itemWidth={viewportWidth}
-            hasParallaxImages={true}
-            inactiveSlideScale={1}
-            inactiveSlideOpacity={1}
-            firstItem={1}
-            loop={true}
-            // loopClonesPerSide={2}
-            autoplay={true}
-            autoplayDelay={500}
-            autoplayInterval={3000}
-            onSnapToItem={(index) => this.setState({ activeSlide: index })}
-          />
-          <Pagination
-            dotsLength={this.state.data.deals.length}
-            activeDotIndex={activeSlide}
-            containerStyle={styles.paginationContainer}
-            dotColor={'rgba(255, 255, 255, 0.92)'}
-            dotStyle={styles.paginationDot}
-            inactiveDotColor='white'
-            inactiveDotOpacity={0.4}
-            inactiveDotScale={0.6}
-            carouselRef={this._slider1Ref}
-            tappableDots={!!this._slider1Ref}
-          />
+          <View style={styles.carousel}>
+            <Carousel
+              ref={(c) => { this._slider1Ref = c; }}
+              data={this.state.data.deals}
+              renderItem={this.renderDealItem}
+              sliderWidth={viewportWidth}
+              itemWidth={viewportWidth}
+              // hasParallaxImages={true}
+              inactiveSlideScale={1}
+              inactiveSlideOpacity={1}
+              firstItem={1}
+              loop={true}
+              // loopClonesPerSide={2}
+              autoplay={true}
+              autoplayDelay={500}
+              autoplayInterval={3000}
+              onSnapToItem={(index) => this.setState({ activeSlide: index })}
+            />
+            <Pagination
+              dotsLength={this.state.data.deals.length}
+              activeDotIndex={activeSlide}
+              containerStyle={styles.paginationContainer}
+              dotColor={'rgba(255, 255, 255, 0.92)'}
+              dotStyle={styles.paginationDot}
+              inactiveDotColor='white'
+              inactiveDotOpacity={0.4}
+              inactiveDotScale={0.6}
+              carouselRef={this._slider1Ref}
+              tappableDots={!!this._slider1Ref}
+            />
+          </View>
         </View>
         <Text style={styles.title}> Most Popular </Text>
         <View style={styles.foods}>
           <FlatList
+            initialNumToRender={2}
             data={this.state.data.foods}
             renderItem={this.renderFoodItem}
             keyExtractor={item => `${item.id}`}
@@ -162,6 +179,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   categories: {
+    height: 140,
     marginTop: 10,
   },
   categoryItemContainer: {
@@ -174,21 +192,24 @@ const styles = StyleSheet.create({
     borderRadius: 50
   },
   categoryItemTitle: {
-    color: 'black',
+    fontFamily: AppStyles.fontName.bold,
+    color: AppStyles.color.text,
   },
   deals: {
     marginTop: 10,
+    minHeight: 200,    
+  },
+  carousel: {
+
   },
   dealItemContainer: {
     flex: 1,
-    flex: 1,
-    alignItems: 'stretch',
     justifyContent: 'center',
     width: viewportWidth,
     height: 200,
-    backgroundColor: 'green'
   },
   dealPhoto: {
+    ...StyleSheet.absoluteFillObject,
     width: '100%',
     height: 200,
   },
@@ -197,7 +218,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)'
   },
   dealName: {
-    fontWeight: 'bold',
+    fontFamily: AppStyles.fontName.bold,
     textAlign: 'center',
     color: 'white',
   },
@@ -218,7 +239,7 @@ const styles = StyleSheet.create({
 
 
   foods: {
-    marginTop: 10,
+
   },
   foodItemContainer: {
     flex: 1,
@@ -235,17 +256,20 @@ const styles = StyleSheet.create({
   },
   foodName: {
     flex: 1,
-    fontWeight: 'bold',
+    fontFamily: AppStyles.fontName.bold,
     textAlign: 'left',
-    color: 'black',
+    color: AppStyles.color.text,
   },
   foodPrice: {
     flex: 1,
-    fontWeight: 'bold',
+    fontFamily: AppStyles.fontName.bold,
     textAlign: 'right',
-    color: 'black',
+    color: AppStyles.color.text,
   },
   title: {
+    marginTop: 20,
+    marginLeft: 5,
+    fontFamily: AppStyles.fontName.bold,
     color: AppStyles.color.text,
     fontSize: 25,
   },

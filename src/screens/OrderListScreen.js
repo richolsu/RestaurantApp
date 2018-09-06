@@ -4,6 +4,7 @@ import Button from 'react-native-button';
 import { SearchBar } from "react-native-elements";
 import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
+import AsyncImageAnimated from 'react-native-async-image-animated';
 
 class OrderListScreen extends Component {
 
@@ -115,7 +116,7 @@ class OrderListScreen extends Component {
 
   renderItem = ({ item }) => (
     <View style={styles.container}>
-      <Image style={styles.photo} source={{ uri: item.list[0].photo }} />
+      <AsyncImageAnimated animationStyle={'fade'}  placeholderColor={AppStyles.color.placeholder} style={styles.photo} source={{ uri: item.list[0].photo }} />
       {
         item.list.map((food) => {
           return (
@@ -141,6 +142,7 @@ class OrderListScreen extends Component {
         data={this.state.data}
         renderItem={this.renderItem}
         keyExtractor={item => `${item.id}`}
+        initialNumToRender={5}
         // ItemSeparatorComponent={this.renderSeparator}
         // ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
@@ -164,6 +166,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   photo: {
+    width: '100%',
     height: 100,
   },
   rowContainer: {
@@ -202,7 +205,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   total: {
-    flex: 1,
+    flex: 2,
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
@@ -217,6 +220,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 5,
     padding: 10,
+    marginRight: 50,
     backgroundColor: AppStyles.color.main
   },
   actionButtonText: {

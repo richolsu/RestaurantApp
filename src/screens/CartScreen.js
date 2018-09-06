@@ -145,14 +145,12 @@ class CartScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 30,
     flex: 1,
     backgroundColor: AppStyles.color.white
   },
   flat: {
     flex: 1,
     margin: 10,
-    backgroundColor: AppStyles.color.white
   },
   rowContainer: {
     flexDirection: 'row',
@@ -163,7 +161,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 1,
     borderWidth: 1,
-    fontWeight: 'bold',
+    fontFamily: AppStyles.fontName.bold,
     paddingLeft: 5,
     paddingRight: 5,
     textAlign: 'center',
@@ -174,7 +172,6 @@ const styles = StyleSheet.create({
     padding: 10,
     color: AppStyles.color.text,
     fontFamily: AppStyles.fontName.bold,
-    fontWeight: 'bold',
     textAlign: "center",
   },
   title: {
@@ -190,6 +187,7 @@ const styles = StyleSheet.create({
     backgroundColor: AppStyles.color.main
   },
   actionButtonText: {
+    fontFamily: AppStyles.fontName.bold,
     color: AppStyles.color.white
   }
 

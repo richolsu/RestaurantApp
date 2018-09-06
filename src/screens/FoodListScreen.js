@@ -3,6 +3,7 @@ import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 import { ListItem, SearchBar } from "react-native-elements";
 import { FoodListItemStyle } from '../AppStyles';
 
+
 class FootListScreen extends Component {
 
   static navigationOptions = {
@@ -133,6 +134,7 @@ class FootListScreen extends Component {
         data={this.state.data}
         renderItem={this.renderItem}
         keyExtractor={item => `${item.id}`}
+        initialNumToRender={5}
         // ItemSeparatorComponent={this.renderSeparator}
         // ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}

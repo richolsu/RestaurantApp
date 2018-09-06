@@ -4,7 +4,7 @@ import { RootNavigator } from '../navigations/AppNavigation';
 
 
 // Start with two routes: The Main screen, with the Login screen on top.
-const firstAction = RootNavigator.router.getActionForPathAndParams('loginStack');
+const firstAction = RootNavigator.router.getActionForPathAndParams('drawerStack');
 const initialNavState = RootNavigator.router.getStateForAction(
   firstAction
 );

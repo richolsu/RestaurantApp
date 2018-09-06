@@ -1,8 +1,9 @@
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Button from 'react-native-button';
-import { AppStyles } from '../AppStyles';
+import { AppStyles, TextInputStyle } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
+import AsyncImageAnimated from 'react-native-async-image-animated';
 
 export default class FoodDetailScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -57,25 +58,25 @@ export default class FoodDetailScreen extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Image style={styles.photo} source={{ uri: this.state.data.photo }} />
+        <AsyncImageAnimated animationStyle={'fade'} placeholderColor={AppStyles.color.placeholder} style={styles.photo} source={{ uri: this.state.data.photo }} />
         <View style={styles.info}>
           <Text style={styles.title}> {this.state.data.name} </Text>
           <Text style={styles.description}> {this.state.data.address} </Text>
         </View>
         <View style={styles.content}>
           <View style={styles.textInputContainer}>
-            <TextInput style={styles.textInputBody} placeholder="First Name" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+            <TextInput style={styles.textInput} placeholder="First Name" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
           </View>
           <View style={styles.textInputContainer}>
-            <TextInput style={styles.textInputBody} placeholder="Last Name" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+            <TextInput style={styles.textInput} placeholder="Last Name" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
           </View>
           <View style={styles.textInputContainer}>
-            <TextInput style={styles.textInputBody} placeholder="Phone Number" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+            <TextInput style={styles.textInput} placeholder="Phone Number" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
           </View>
           <View style={styles.textInputContainer}>
-            <TextInput style={styles.textInputBody} placeholder="Reservation Details" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+            <TextInput style={styles.textInput} placeholder="Reservation Details" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
           </View>
-          <Button containerStyle={styles.buttonContainer} style={styles.buttonText}
+          <Button containerStyle={styles.buttonContainer} style={styles.buttonText} 
             onPress={() => this.props.navigation.dispatch({ type: 'Login' })}>Make Reservation</Button>
         </View>
       </ScrollView>
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   photo: {
+    width: '100%',
     height: 200,
   },
   info: {
@@ -101,11 +103,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: 'black',
+    fontFamily: AppStyles.fontName.bold,
+    color: AppStyles.color.text,
     fontSize: 25,
   },
   description: {
     marginTop: 10,
+    fontFamily: AppStyles.fontName.text,
     color: AppStyles.color.text,
   },
   buttonContainer: {
@@ -126,7 +130,7 @@ const styles = StyleSheet.create({
     borderColor: AppStyles.color.grey,
     borderRadius: 5,
   },
-  textInputbody: {
+  textInput: {
     color: AppStyles.color.text,
   }
 

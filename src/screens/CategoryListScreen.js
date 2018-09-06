@@ -3,6 +3,7 @@ import { ActivityIndicator, Dimensions, FlatList, Image, StyleSheet, Text, Touch
 import { SearchBar } from "react-native-elements";
 import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
+import AsyncImageAnimated from 'react-native-async-image-animated';
 
 // screen sizing
 const { width, height } = Dimensions.get('window');
@@ -125,10 +126,10 @@ class CategoryListScreen extends Component {
 
   renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => this.onPress(item)}>
-      <View style={style.container}>
-        <Image style={StyleSheet.absoluteFillObject} source={{ uri: item.photo }} />
-        <View style={style.overlay} />
-        <Text numberOfLines={3} style={style.title}>
+      <View style={styles.container}>
+        <AsyncImageAnimated animationStyle={'fade'}  placeholderColor={AppStyles.color.placeholder} style={styles.photo} source={{ uri: item.photo }} />
+        <View style={styles.overlay} />
+        <Text numberOfLines={3} style={styles.title}>
           {item.name}
         </Text>
       </View>
@@ -166,7 +167,7 @@ class CategoryListScreen extends Component {
   }
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'stretch',
@@ -175,12 +176,17 @@ const style = StyleSheet.create({
     width: (SCREEN_WIDTH - PRODUCT_ITEM_MARGIN) / numColumns -
       PRODUCT_ITEM_MARGIN,
     height: PRODUCT_ITEM_HEIGHT,
-    backgroundColor: 'green'
   },
   title: {
     color: 'white',
     fontFamily: AppStyles.fontName.bold,
     textAlign: 'center'
+  },
+  photo: {
+    width: (SCREEN_WIDTH - PRODUCT_ITEM_MARGIN) / numColumns -
+      PRODUCT_ITEM_MARGIN,
+    height: PRODUCT_ITEM_HEIGHT,
+    ...StyleSheet.absoluteFillObject,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

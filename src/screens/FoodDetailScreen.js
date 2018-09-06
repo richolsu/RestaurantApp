@@ -1,5 +1,6 @@
 import React from 'react';
-import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
+import AsyncImageAnimated from 'react-native-async-image-animated';
 import Button from 'react-native-button';
 import { AppStyles } from '../AppStyles';
 
@@ -49,17 +50,35 @@ export default class FoodDetailScreen extends React.Component {
   };
 
   renderItem = ({ item }) => (
-    <Image style={styles.detail} source={{ uri: item }} />
+    <AsyncImageAnimated style={styles.detail} animationStyle={'fade'} placeholderColor={AppStyles.color.placeholder} source={{ uri: item }} />
   );
+
+  renderSeparator = () => {
+    return (
+      <View
+        style={{
+          width: 10,
+          height: "100%",
+        }}
+      />
+    );
+  };
 
   render() {
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.title}> {this.state.data.name} </Text>
-        <Image style={styles.photo} source={{ uri: this.state.data.photo }} />
+        <AsyncImageAnimated
+          source={{
+            uri: this.state.data.photo
+          }}
+          animationStyle={'fade'}
+          style={styles.photo}
+        />
         <View style={styles.detailPhotos}>
-          <FlatList
+          <FlatList style={styles.flat}
             horizontal={true}
+            ItemSeparatorComponent={this.renderSeparator}
             data={this.state.data.detail_photos}
             renderItem={this.renderItem}
             keyExtractor={item => `${item}`}
@@ -92,23 +111,27 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   title: {
+    fontFamily: AppStyles.fontName.bold,
     color: AppStyles.color.text,
     fontSize: 25,
   },
   photo: {
+    width: '100%',
     height: 300,
+    marginTop: 5,
   },
   detail: {
-    height: 60,
-    width: 100,
-    marginRight: 10
+    height: 90,
+    width: 120,
+    marginBottom: 5,
   },
   detailPhotos: {
-    height: 60,
-    marginTop: 10,
+    height: 100,
+    marginTop: 20,
   },
   description: {
     marginTop: 20,
+    fontFamily: AppStyles.fontName.main,
     color: AppStyles.color.text,
   },
   buttonSetContainer: {
@@ -143,7 +166,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 5,
     borderWidth: 1,
-    fontWeight: 'bold',
+    fontFamily: AppStyles.fontName.bold,
     padding: 10,
     textAlign: 'center',
     color: AppStyles.color.text,
@@ -162,6 +185,7 @@ const styles = StyleSheet.create({
     backgroundColor: AppStyles.color.main
   },
   actionButtonText: {
+    fontFamily: AppStyles.fontName.bold,
     color: AppStyles.color.white
   }
 

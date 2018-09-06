@@ -6,7 +6,8 @@ export const AppStyles = {
     text: '#555555',
     white: 'white',
     facebook: '#4267b2',
-    grey: 'grey'
+    grey: 'grey',
+    placeholder: '#a0a0a0'
   },
   fontSize: {
     title: 30,
@@ -38,6 +39,7 @@ export const ButtonStyle = StyleSheet.create({
     marginTop: 30,
   },
   loginText: {
+    fontFamily: AppStyles.fontName.main,
     color: AppStyles.color.white
   },
   signupContainer: {
@@ -50,6 +52,7 @@ export const ButtonStyle = StyleSheet.create({
     marginTop: 30,
   },
   signupText: {
+    fontFamily: AppStyles.fontName.main,
     color: AppStyles.color.text
   },
   facebookContainer: {
@@ -60,6 +63,7 @@ export const ButtonStyle = StyleSheet.create({
     marginTop: 30,
   },
   facebookText: {
+    fontFamily: AppStyles.fontName.main,
     color: AppStyles.color.white
   },
   headerButtonContainer: {
@@ -82,6 +86,7 @@ export const TextStyle = StyleSheet.create({
     marginBottom: 20,
   },
   leftTitle: {
+    fontFamily: AppStyles.fontName.main,
     alignSelf: 'stretch',
     textAlign: 'left',
     marginLeft: 20
@@ -97,6 +102,10 @@ export const TextStyle = StyleSheet.create({
 });
 
 export const TextInputStyle = StyleSheet.create({
+  placeholder: {
+    fontFamily: AppStyles.fontName.text,
+    color: 'red'
+  },
   container: {
     width: AppStyles.textInputWidth.main,
     marginTop: 30,
@@ -108,13 +117,14 @@ export const TextInputStyle = StyleSheet.create({
     paddingRight: 10
   },
   body: {
+    fontFamily: AppStyles.fontName.main,
     color: AppStyles.color.text,
   }
 });
 
 export const FoodListItemStyle = StyleSheet.create({
   title: {
-    fontWeight: 'bold',
+    fontSize: 20,
     color: AppStyles.color.text,
     fontFamily: AppStyles.fontName.bold,
   },
@@ -123,19 +133,19 @@ export const FoodListItemStyle = StyleSheet.create({
   },
   description: {
     color: AppStyles.color.text,
-    fontFamily: AppStyles.fontName.bold,
+    fontFamily: AppStyles.fontName.main,
     paddingLeft: 10,
   },
   price: {
-    fontWeight: 'bold',
+    fontSize: 18,
     color: AppStyles.color.text,
     fontFamily: AppStyles.fontName.bold,
     marginTop: 10,
     paddingLeft: 10,
   },
   rightIcon: {
-    width: 90,
-    height: 90
+    width: 120,
+    height: 120
   }
 });
 

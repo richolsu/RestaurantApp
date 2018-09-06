@@ -5,14 +5,18 @@ import Button from 'react-native-button';
 import { AppStyles } from '../AppStyles';
 
 export default class FoodDetailScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Forbidden Salad',
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: typeof (navigation.state.params) == 'undefined' || typeof (navigation.state.params.item) == 'undefined' ? 'Food' : navigation.state.params.item.name,
+  });
 
   json = require('../jsons/fooddetail.json');
-  
+
   constructor(props) {
     super(props);
+
+    const { navigation } = props;
+    const item = navigation.getParam('item');
+    this.json.name = item.name;
 
     this.state = {
       loading: false,
@@ -20,15 +24,30 @@ export default class FoodDetailScreen extends React.Component {
       page: 1,
       seed: 1,
       error: null,
-      refreshing: false
+      refreshing: false,
+      count: 1,
     };
+
+    
   }
 
   componentDidMount() {
     this.makeRemoteRequest();
   }
 
+  onIncrease = () => {
+    this.setState({state:this.state.count++});
+  };
   
+  onDecrease = () => {
+    if (this.state.count>1)
+    this.setState({state:this.state.count--});
+  };
+
+  onAddToCart = () => {
+    alert("added to cart");
+  };
+
 
   makeRemoteRequest = () => {
     const { page, seed } = this.state;
@@ -90,16 +109,16 @@ export default class FoodDetailScreen extends React.Component {
         <View style={styles.buttonSetContainer}>
           <View style={styles.buttonSet}>
             <Button containerStyle={styles.buttonContainer} style={styles.buttonText}
-              onPress={() => this.props.navigation.dispatch({ type: 'Login' })}>-</Button>
-            <Text style={styles.count}>12</Text>
+              onPress={this.onDecrease}>-</Button>
+            <Text style={styles.count}>{this.state.count}</Text>
             <Button containerStyle={styles.buttonContainer} style={styles.buttonText}
-              onPress={() => this.props.navigation.dispatch({ type: 'Login' })}>+</Button>
+              onPress={this.onIncrease}>+</Button>
           </View>
         </View>
         <View style={styles.actionContainer}>
           <Text style={styles.price}>$11.00</Text>
           <Button containerStyle={styles.actionButtonContainer} style={styles.actionButtonText}
-            onPress={() => this.props.navigation.dispatch({ type: 'Login' })}>Add to Cart</Button>
+            onPress={this.onAddToCart}>Add to Cart</Button>
         </View>
       </ScrollView>
     );

@@ -5,10 +5,9 @@ import { FoodListItemStyle } from '../AppStyles';
 
 
 class FootListScreen extends Component {
-
-  static navigationOptions = {
-    title: 'Sandwiches',
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: typeof (navigation.state.params) == 'undefined' || typeof (navigation.state.params.item) == 'undefined' ? 'Sandwiches' : navigation.state.params.item.name,
+  });
 
   json = require('../jsons/foodlist.json');
 
@@ -29,7 +28,7 @@ class FootListScreen extends Component {
     this.makeRemoteRequest();
   }
 
-  
+
 
   makeRemoteRequest = () => {
     const { page, seed } = this.state;
@@ -110,7 +109,7 @@ class FootListScreen extends Component {
   };
 
   onPress = (item) => {
-    this.props.navigation.navigate('FoodDetail');
+    this.props.navigation.navigate('FoodDetail', {item: item});
   }
 
   renderItem = ({ item }) => (

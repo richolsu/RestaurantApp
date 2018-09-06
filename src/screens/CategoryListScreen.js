@@ -123,7 +123,7 @@ class CategoryListScreen extends Component {
   };
 
   onPress = (item) => {
-    this.props.navigation.navigate('FoodList');
+    this.props.navigation.navigate('FoodList', {item: item});
   }
 
   renderItem = ({ item }) => (

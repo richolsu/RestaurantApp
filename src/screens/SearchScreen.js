@@ -128,7 +128,7 @@ class SearchScreen extends Component {
   };
 
   onPress = (item) => {
-    this.props.navigation.navigate('FoodDetail');
+    this.props.navigation.navigate('FoodDetail', {item: item});
   }
 
   renderItem = ({ item }) => (

@@ -55,15 +55,15 @@ export default class HomeScreen extends React.Component {
   };
 
   onPressCategoryItem = (item) => {
-    this.props.navigation.navigate('FoodList');
+    this.props.navigation.navigate('FoodList', {item: item});
   }
 
   onPressDealItem = (item) => {
-    this.props.navigation.navigate('FoodList');
+    this.props.navigation.navigate('FoodList', {item: item});
   }
 
   onPressFoodItem = (item) => {
-    this.props.navigation.navigate('FoodDetail');
+    this.props.navigation.navigate('FoodDetail', {item: item});
   }
 
   renderCategoryItem = ({ item }) => (

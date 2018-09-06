@@ -12,12 +12,14 @@ export default class HomeScreen extends React.Component {
     headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />,
   });
 
+  json = require('../jsons/home.json');
+
   constructor(props) {
     super(props);
 
     this.state = {
       activeSlide: 1,
-      data: { deals: [] },
+      data: this.json.results,
       loading: false,
       page: 1,
       seed: 1,
@@ -30,7 +32,6 @@ export default class HomeScreen extends React.Component {
     this.makeRemoteRequest();
   }
 
-  json = require('../jsons/home.json');
 
   makeRemoteRequest = () => {
     const { page, seed } = this.state;

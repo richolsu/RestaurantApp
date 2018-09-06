@@ -9,12 +9,14 @@ export default class FoodDetailScreen extends React.Component {
     title: 'Forbidden Salad',
   };
 
+  json = require('../jsons/fooddetail.json');
+  
   constructor(props) {
     super(props);
 
     this.state = {
       loading: false,
-      data: [],
+      data: this.json,
       page: 1,
       seed: 1,
       error: null,
@@ -26,7 +28,7 @@ export default class FoodDetailScreen extends React.Component {
     this.makeRemoteRequest();
   }
 
-  json = require('../jsons/fooddetail.json');
+  
 
   makeRemoteRequest = () => {
     const { page, seed } = this.state;

@@ -13,12 +13,14 @@ class OrderListScreen extends Component {
     headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />
   });
 
+  json = require('../jsons/orderlist.json');
+
   constructor(props) {
     super(props);
 
     this.state = {
       loading: false,
-      data: [],
+      data: this.json.results,
       page: 1,
       seed: 1,
       error: null,
@@ -30,7 +32,7 @@ class OrderListScreen extends Component {
     this.makeRemoteRequest();
   }
 
-  json = require('../jsons/orderlist.json');
+  
 
   makeRemoteRequest = () => {
     const { page, seed } = this.state;

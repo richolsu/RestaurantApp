@@ -11,12 +11,14 @@ export default class FoodDetailScreen extends React.Component {
     headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />,
   });
 
+  json = require('../jsons/reservation.json');
+
   constructor(props) {
     super(props);
 
     this.state = {
       loading: false,
-      data: [],
+      data: this.json.result,
       page: 1,
       seed: 1,
       error: null,
@@ -28,7 +30,7 @@ export default class FoodDetailScreen extends React.Component {
     this.makeRemoteRequest();
   }
 
-  json = require('../jsons/reservation.json');
+  
 
   makeRemoteRequest = () => {
     const { page, seed } = this.state;

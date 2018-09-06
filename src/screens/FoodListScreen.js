@@ -10,12 +10,14 @@ class FootListScreen extends Component {
     title: 'Sandwiches',
   };
 
+  json = require('../jsons/foodlist.json');
+
   constructor(props) {
     super(props);
 
     this.state = {
       loading: false,
-      data: [],
+      data: this.json.results,
       page: 1,
       seed: 1,
       error: null,
@@ -27,7 +29,7 @@ class FootListScreen extends Component {
     this.makeRemoteRequest();
   }
 
-  json = require('../jsons/foodlist.json');
+  
 
   makeRemoteRequest = () => {
     const { page, seed } = this.state;

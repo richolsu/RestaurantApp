@@ -39,7 +39,6 @@ export const ButtonStyle = StyleSheet.create({
     marginTop: 30,
   },
   loginText: {
-    fontFamily: AppStyles.fontName.main,
     color: AppStyles.color.white
   },
   signupContainer: {
@@ -52,7 +51,6 @@ export const ButtonStyle = StyleSheet.create({
     marginTop: 30,
   },
   signupText: {
-    fontFamily: AppStyles.fontName.main,
     color: AppStyles.color.text
   },
   facebookContainer: {
@@ -63,7 +61,6 @@ export const ButtonStyle = StyleSheet.create({
     marginTop: 30,
   },
   facebookText: {
-    fontFamily: AppStyles.fontName.main,
     color: AppStyles.color.white
   },
   headerButtonContainer: {
@@ -80,13 +77,12 @@ export const ButtonStyle = StyleSheet.create({
 export const TextStyle = StyleSheet.create({
   title: {
     fontSize: AppStyles.fontSize.title,
-    fontFamily: AppStyles.fontName.bold,
+    fontWeight: 'bold',
     color: AppStyles.color.main,
     marginTop: 20,
     marginBottom: 20,
   },
   leftTitle: {
-    fontFamily: AppStyles.fontName.main,
     alignSelf: 'stretch',
     textAlign: 'left',
     marginLeft: 20
@@ -95,7 +91,6 @@ export const TextStyle = StyleSheet.create({
     paddingLeft: 50,
     paddingRight: 50,
     textAlign: 'center',
-    fontFamily: AppStyles.fontName.main,
     fontSize: AppStyles.fontSize.content,
     color: AppStyles.color.text,
   }
@@ -117,7 +112,6 @@ export const TextInputStyle = StyleSheet.create({
     paddingRight: 10
   },
   body: {
-    fontFamily: AppStyles.fontName.main,
     color: AppStyles.color.text,
   }
 });

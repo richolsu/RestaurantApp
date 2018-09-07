@@ -7,6 +7,9 @@ React Native App
 4. react-native run-android
 5. react-native run-ios
 6. Generating Signed APK
+
 ...$ cd android
+
 ...$ ./gradlew assembleRelease
+
 ...https://facebook.github.io/react-native/docs/signed-apk-android

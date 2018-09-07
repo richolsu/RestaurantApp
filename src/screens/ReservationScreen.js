@@ -133,6 +133,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   textInput: {
+    height: 42,
+    paddingLeft:10, 
+    paddingRight:10,
     color: AppStyles.color.text,
   }
 

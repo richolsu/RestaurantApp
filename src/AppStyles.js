@@ -108,10 +108,11 @@ export const TextInputStyle = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: AppStyles.color.grey,
     borderRadius: AppStyles.borderRadius.main,
-    paddingLeft: 10,
-    paddingRight: 10
   },
   body: {
+    height: 42,
+    paddingLeft: 20,
+    paddingRight: 20,
     color: AppStyles.color.text,
   }
 });

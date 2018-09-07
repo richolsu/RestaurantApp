@@ -10,7 +10,7 @@ const LoginScreen = ({ navigation }) => (
       <TextInput style={TextInputStyle.body} placeholder="E-mail or phone number" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
     </View>
     <View style={TextInputStyle.container}>
-      <TextInput style={TextInputStyle.body} placeholder="Password" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+      <TextInput style={TextInputStyle.body} secureTextEntry={true} placeholder="Password" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
     </View>
     <Button containerStyle={ButtonStyle.loginContainer} style={ButtonStyle.loginText}
       onPress={() => navigation.dispatch({ type: 'Login' })}>Log in</Button>

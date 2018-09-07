@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
   },
   actionButtonContainer: {
     padding: 10,
-    backgroundColor: AppStyles.color.main
+    backgroundColor: AppStyles.color.main,
+    marginBottom:30
   },
   actionButtonText: {
     fontFamily: AppStyles.fontName.bold,

@@ -10,24 +10,26 @@ class LoginScreen extends Component {
 
     this.state = {
       loading: true,
+      email: 'jhon@gmail.com',
+      password: '111111',
     };
   }
 
-  componentDidMount() {
-    this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
-      this.setState({
-        loading: false,
-        user,
-      });
-    });
-  }
-
-  componentWillUnmount() {
-    this.authSubscription();
-  }
-
   onPressLogin = () => {
-    this.props.navigation.dispatch({ type: 'Login' });
+
+    const { email, password } = this.state;
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        this.props.navigation.dispatch({ type: 'Login' });
+      })
+      .catch((error) => {
+        const { code, message } = error;
+        alert(message);
+        // For details of error codes, see the docs
+        // The message contains the default Firebase string
+        // representation of the error
+      });
   }
 
   onPressFacebook = () => {
@@ -39,10 +41,10 @@ class LoginScreen extends Component {
       <View style={styles.container}>
         <Text style={[TextStyle.title, TextStyle.leftTitle]}>Sign In</Text>
         <View style={TextInputStyle.container}>
-          <TextInput style={TextInputStyle.body} placeholder="E-mail or phone number" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+          <TextInput style={TextInputStyle.body} placeholder="E-mail or phone number" onChangeText={(text) => this.setState({ email: text })} value={this.state.email} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
         </View>
         <View style={TextInputStyle.container}>
-          <TextInput style={TextInputStyle.body} secureTextEntry={true} placeholder="Password" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+          <TextInput style={TextInputStyle.body} secureTextEntry={true} placeholder="Password" onChangeText={(text) => this.setState({ password: text })} value={this.state.password} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
         </View>
         <Button containerStyle={ButtonStyle.loginContainer} style={ButtonStyle.loginText}
           onPress={() => this.onPressLogin()}>Log in</Button>
@@ -51,6 +53,7 @@ class LoginScreen extends Component {
           onPress={() => this.onPressFacebook()}>Facebook Login</Button>
       </View>
     );
+
   }
 }
 

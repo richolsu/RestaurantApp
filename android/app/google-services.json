@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "940038166370",
+    "firebase_url": "https://map-react-native-c4e28.firebaseio.com",
+    "project_id": "map-react-native-c4e28",
+    "storage_bucket": "map-react-native-c4e28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940038166370:android:3f4fa551d34cc26f",
+        "android_client_info": {
+          "package_name": "com.restaurantapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940038166370-pemc2bh949bcutj1p71khl77r0ua5n1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSMvgjRY_5HyaixFlPE5GTSVS6ukveUe0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

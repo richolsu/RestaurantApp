@@ -3,6 +3,7 @@ import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 import { ListItem, SearchBar } from "react-native-elements";
 import { FoodListItemStyle } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
+import firebase from 'react-native-firebase';
 
 class SearchScreen extends Component {
 
@@ -15,75 +16,55 @@ class SearchScreen extends Component {
         showLoading
         clearIcon={true}
         searchIcon={true}
-        // onChangeText={alert('onChangeText')}
+        // onChangeText={(text) => this.setState({ keyword: text })}
         // onClear={alert('onClear')}
         placeholder='Search' />,
   });
 
-  json = require('../jsons/foodlist.json');
 
   constructor(props) {
     super(props);
 
+
     this.state = {
+      keyword:'nadfaef',
       loading: false,
-      data: this.json.results,
-      page: 1,
-      seed: 1,
+      data: [],
       error: null,
       refreshing: false
     };
+
+    this.ref = firebase.firestore().collection('foods').where('name', '>=', this.state.keyword);
+    this.unsubscribe = null;
+  }
+ 
+  onCollectionUpdate = (querySnapshot) => {
+    const data = [];
+    querySnapshot.forEach((doc) => {
+      const { name, description, photo, price } = doc.data();
+      data.push({
+        id: doc.id,
+        name,
+        description,
+        photo, 
+        doc,
+        price
+      });
+    });
+
+    this.setState({ 
+      data,
+      loading: false,
+   });
   }
 
   componentDidMount() {
-    this.makeRemoteRequest();
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate)
   }
 
-
-  makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
-    this.setState({ loading: true });
-
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          // data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          data: this.json.results,
-          error: res.error || null,
-          loading: false,
-          refreshing: false
-        });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
-
-  handleRefresh = () => {
-    this.setState(
-      {
-        page: 1,
-        seed: this.state.seed + 1,
-        refreshing: true
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
-  };
-
-  handleLoadMore = () => {
-    this.setState(
-      {
-        page: this.state.page + 1
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
-  };
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
 
   renderSeparator = () => {
     return (
@@ -97,35 +78,7 @@ class SearchScreen extends Component {
       />
     );
   };
-
-  renderHeader = () => {
-    return <SearchBar style={{ backgroundColor: 'red', padding: 10, height: 200 }}
-      round
-      lightTheme
-      showLoading
-      clearIcon={true}
-      searchIcon={true}
-      // onChangeText={alert('hi')}
-      // onClear={alert('hi')}
-      placeholder='Search' >
-    </SearchBar>;
-  };
-
-  renderFooter = () => {
-    if (!this.state.loading) return null;
-
-    return (
-      <View
-        style={{
-          paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
-  };
+  
 
   onPress = (item) => {
     this.props.navigation.navigate('FoodDetail', {item: item});
@@ -156,13 +109,6 @@ class SearchScreen extends Component {
         data={this.state.data}
         renderItem={this.renderItem}
         keyExtractor={item => `${item.id}`}
-        // ItemSeparatorComponent={this.renderSeparator}
-        // ListHeaderComponent={this.renderHeader}
-        ListFooterComponent={this.renderFooter}
-        onRefresh={this.handleRefresh}
-        refreshing={this.state.refreshing}
-        onEndReached={this.handleLoadMore}
-        onEndReachedThreshold={50}
       />
     );
   }

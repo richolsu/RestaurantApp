@@ -19,7 +19,7 @@ class OrderListScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.ref = firebase.firestore().collection('orders').where('user_id', '==', this.props.user.uid);
+    this.ref = firebase.firestore().collection('orders').where('user_id', '==', this.props.user.id);
     this.unsubscribe = null;
 
     this.state = {

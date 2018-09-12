@@ -29,7 +29,7 @@ class CartScreen extends Component {
       refreshing: false,
       firstname: '',
       lastname: '',
-      phone: this.props.user.uid,
+      phone: this.props.user.id,
       detail: '',
     };
   }
@@ -62,7 +62,7 @@ class CartScreen extends Component {
 
     const { navigation } = this.props;
     this.ref.add({
-      user_id: this.props.user.uid,
+      user_id: this.props.user.id,
       foods:foods
     }).then(function (docRef) {
       navigation.dispatch({ type: 'PlaceOrder' });

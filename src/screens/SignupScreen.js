@@ -11,10 +11,10 @@ export default class SignupScreen extends React.Component {
 
     this.state = {
       loading: true,
-      fullname:'John smith',
-      phone:'111',
-      email:'jhon@gmail.com',
-      password:'111111',
+      fullname: 'John smith',
+      phone: '111',
+      email: 'jhon@gmail.com',
+      password: '111111',
     };
   }
 
@@ -35,17 +35,28 @@ export default class SignupScreen extends React.Component {
     const { email, password } = this.state;
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((user) => {
-        alert(user.toJSON());
-        // If you need to do anything with the user, do it here
-        // The user will be logged in automatically by the
-        // `onAuthStateChanged` listener we set up in App.js earlier
-      })
-      .catch((error) => {
+        const { navigation } = this.props;
+        const { fullname, phone, email } = this.state;
+        const data = {
+          email: email,
+          fullname: fullname,
+          phone: phone,
+        };
+        firebase.firestore().collection('users').doc(user.uid).set(data);
+        firebase.firestore().collection('users').doc(user.uid).get().then(function (doc) {
+          if (doc.exists) {
+            navigation.dispatch({ type: 'Login', user: doc.data() });
+          } else {
+            navigation.dispatch({ type: 'Login', user: {id:user.uid, fullname:'', phone:'', email:user.email} });
+          }
+        }).catch(function (error) {
+          const { code, message } = error;
+          alert(message);
+        });
+
+      }).catch((error) => {
         const { code, message } = error;
         alert(message);
-        // For details of error codes, see the docs
-        // The message contains the default Firebase string
-        // representation of the error
       });
   }
 
@@ -54,16 +65,16 @@ export default class SignupScreen extends React.Component {
       <View style={styles.container}>
         <Text style={[TextStyle.title, TextStyle.leftTitle]}>Create new account</Text>
         <View style={TextInputStyle.container}>
-          <TextInput style={TextInputStyle.body} placeholder="Full Name" onChangeText={(text) => this.setState({fullname:text})} value={this.state.fullname} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+          <TextInput style={TextInputStyle.body} placeholder="Full Name" onChangeText={(text) => this.setState({ fullname: text })} value={this.state.fullname} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
         </View>
         <View style={TextInputStyle.container}>
-          <TextInput style={TextInputStyle.body} placeholder="Phone Number" onChangeText={(text) => this.setState({phone:text})} value={this.state.phone} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+          <TextInput style={TextInputStyle.body} placeholder="Phone Number" onChangeText={(text) => this.setState({ phone: text })} value={this.state.phone} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
         </View>
         <View style={TextInputStyle.container}>
-          <TextInput style={TextInputStyle.body} placeholder="E-mail Address" onChangeText={(text) => this.setState({email:text})} value={this.state.email} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+          <TextInput style={TextInputStyle.body} placeholder="E-mail Address" onChangeText={(text) => this.setState({ email: text })} value={this.state.email} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
         </View>
         <View style={TextInputStyle.container}>
-          <TextInput style={TextInputStyle.body} placeholder="Password" onChangeText={(text) => this.setState({password:text})} value={this.state.password} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+          <TextInput style={TextInputStyle.body} placeholder="Password" onChangeText={(text) => this.setState({ password: text })} value={this.state.password} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
         </View>
         <Button containerStyle={[ButtonStyle.facebookContainer, { marginTop: 50 }]} style={ButtonStyle.facebookText}
           onPress={() => this.onRegister()}>Sign Up</Button>

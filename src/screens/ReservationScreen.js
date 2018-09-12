@@ -27,9 +27,9 @@ class ReservationScreen extends React.Component {
       data: {},
       error: null,
       refreshing: false,
-      firstname:'',
-      lastname:'',
-      phone:this.props.user.uid,
+      firstname:this.props.user.fullname,
+      lastname:this.props.user.fullname,
+      phone:this.props.user.phone,
       detail:'',
     };
   }
@@ -67,7 +67,7 @@ class ReservationScreen extends React.Component {
 
   onReserve = () => {
     this.reservationRef.add({
-      user_id: this.props.user.uid,
+      user_id: this.props.user.id,
       firstname:this.state.firstname,
       lastname:this.state.lastname,
       phone:this.state.phone,

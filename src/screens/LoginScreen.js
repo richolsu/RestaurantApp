@@ -21,7 +21,17 @@ class LoginScreen extends Component {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((user) => {
-        this.props.navigation.dispatch({ type: 'Login', user:user });
+        const {navigation} = this.props;
+        firebase.firestore().collection('users').doc(user.uid).get().then(function (doc) {
+          if (doc.exists) {
+            navigation.dispatch({ type: 'Login', user: {id:doc.id, ...doc.data()} });
+          } else {
+            navigation.dispatch({ type: 'Login', user: {id:user.uid, fullname:'', phone:'', email:user.email} });
+          }
+        }).catch(function (error) {
+          const { code, message } = error;
+          alert(message);
+        });
       })
       .catch((error) => {
         const { code, message } = error;
@@ -33,7 +43,7 @@ class LoginScreen extends Component {
   }
 
   onPressFacebook = () => {
-    this.props.navigation.dispatch({ type: 'Login', user:{} });
+    this.props.navigation.dispatch({ type: 'Login', user: {} });
   }
 
   render() {

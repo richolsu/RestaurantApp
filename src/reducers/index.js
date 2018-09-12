@@ -1,7 +1,7 @@
 import { NavigationActions } from 'react-navigation';
 import { combineReducers } from 'redux';
 import { RootNavigator } from '../navigations/AppNavigation';
-
+import firebase from 'react-native-firebase';
 
 // Start with two routes: The Main screen, with the Login screen on top.
 const firstAction = RootNavigator.router.getActionForPathAndParams('loginStack');
@@ -19,10 +19,15 @@ function nav(state = initialNavState, action) {
       );
       break;
     case 'Logout':
-      nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'loginStack' }),
-        state
-      );
+      try {
+        firebase.auth().signOut();
+        nextState = RootNavigator.router.getStateForAction(
+          NavigationActions.navigate({ routeName: 'loginStack' }),
+          state
+        );
+      } catch (e) {
+        console.log(e);
+      }
       break;
     case 'PlaceOrder':
       nextState = RootNavigator.router.getStateForAction(
@@ -56,9 +61,9 @@ const initialAuthState = { isLoggedIn: false };
 function auth(state = initialAuthState, action) {
   switch (action.type) {
     case 'Login':
-      return { ...state, isLoggedIn: true, user:action.user };
+      return { ...state, isLoggedIn: true, user: action.user };
     case 'Logout':
-      return { ...state, isLoggedIn: false, user:{} };
+      return { ...state, isLoggedIn: false, user: {} };
     default:
       return state;
   }
@@ -71,7 +76,7 @@ function cart(state = [], action) {
     case 'PlaceOrder':
       return [];
     case 'Reorder':
-      return [...state, ...action.items];      
+      return [...state, ...action.items];
     default:
       return state;
   }

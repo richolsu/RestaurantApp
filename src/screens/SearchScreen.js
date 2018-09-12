@@ -8,12 +8,15 @@ import firebase from 'react-native-firebase';
 class SearchScreen extends Component {
 
   static navigationOptions = ({ navigation }) => {
-    const {params = {}} = navigation.state;
+    const { params = {} } = navigation.state;
     return {
       headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />,
       headerTitle:
         <SearchBar
-          containerStyle={{ backgroundColor: 'white', flex: 1 }}
+          containerStyle={{
+            backgroundColor: 'transparent', borderBottomColor: 'transparent',
+            borderTopColor: 'transparent', flex: 1
+          }}
           inputStyle={{ backgroundColor: 'rgba(0.8, 0.8, 0.8, 0.2)', borderRadius: 10, color: 'black' }}
           showLoading
           clearIcon={true}
@@ -62,12 +65,12 @@ class SearchScreen extends Component {
   }
 
   onSearch = (text) => {
-    if (text){
+    if (text) {
       this.ref = firebase.firestore().collection('foods').where('name', '==', text);
-    }else{
+    } else {
       this.ref = firebase.firestore().collection('foods');
     }
-    
+
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
 

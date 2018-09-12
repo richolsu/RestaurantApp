@@ -43,7 +43,8 @@ class LoginScreen extends Component {
   }
 
   onPressFacebook = () => {
-    this.props.navigation.dispatch({ type: 'Login', user: {} });
+    alert("no action");
+    // this.props.navigation.dispatch({ type: 'Login', user: {} });
   }
 
   render() {

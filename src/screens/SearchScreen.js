@@ -7,19 +7,22 @@ import firebase from 'react-native-firebase';
 
 class SearchScreen extends Component {
 
-  static navigationOptions = ({ navigation }) => ({
-    headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />,
-    headerTitle:
-      <SearchBar
-        containerStyle={{ backgroundColor: 'white', flex: 1 }}
-        inputStyle={{ backgroundColor: 'rgba(0.8, 0.8, 0.8, 0.2)', borderRadius: 10, color: 'black' }}
-        showLoading
-        clearIcon={true}
-        searchIcon={true}
-        // onChangeText={(text) => this.setState({ keyword: text })}
-        // onClear={alert('onClear')}
-        placeholder='Search' />,
-  });
+  static navigationOptions = ({ navigation }) => {
+    const {params = {}} = navigation.state;
+    return {
+      headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />,
+      headerTitle:
+        <SearchBar
+          containerStyle={{ backgroundColor: 'white', flex: 1 }}
+          inputStyle={{ backgroundColor: 'rgba(0.8, 0.8, 0.8, 0.2)', borderRadius: 10, color: 'black' }}
+          showLoading
+          clearIcon={true}
+          searchIcon={true}
+          onChangeText={(text) => params.handleSearch(text)}
+          // onClear={alert('onClear')}
+          placeholder='Search' />,
+    }
+  };
 
 
   constructor(props) {
@@ -27,17 +30,17 @@ class SearchScreen extends Component {
 
 
     this.state = {
-      keyword:'nadfaef',
+      keyword: 'nadfaef',
       loading: false,
       data: [],
       error: null,
       refreshing: false
     };
 
-    this.ref = firebase.firestore().collection('foods').where('name', '>=', this.state.keyword);
+    this.ref = firebase.firestore().collection('foods');
     this.unsubscribe = null;
   }
- 
+
   onCollectionUpdate = (querySnapshot) => {
     const data = [];
     querySnapshot.forEach((doc) => {
@@ -46,20 +49,33 @@ class SearchScreen extends Component {
         id: doc.id,
         name,
         description,
-        photo, 
+        photo,
         doc,
         price
       });
     });
 
-    this.setState({ 
+    this.setState({
       data,
       loading: false,
-   });
+    });
+  }
+
+  onSearch = (text) => {
+    if (text){
+      this.ref = firebase.firestore().collection('foods').where('name', '==', text);
+    }else{
+      this.ref = firebase.firestore().collection('foods');
+    }
+    
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
 
   componentDidMount() {
-    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate)
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    this.props.navigation.setParams({
+      handleSearch: this.onSearch
+    });
   }
 
   componentWillUnmount() {
@@ -78,10 +94,10 @@ class SearchScreen extends Component {
       />
     );
   };
-  
+
 
   onPress = (item) => {
-    this.props.navigation.navigate('FoodDetail', {item: item});
+    this.props.navigation.navigate('FoodDetail', { item: item });
   }
 
   renderItem = ({ item }) => (
@@ -104,7 +120,6 @@ class SearchScreen extends Component {
 
   render() {
     return (
-
       <FlatList style={{ backgroundColor: 'white' }}
         data={this.state.data}
         renderItem={this.renderItem}

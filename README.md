@@ -11,3 +11,4 @@ React Native App
    $ cd android  
    $ ./gradlew assembleRelease  
 ``` 
+7. react-native link react-native-firebase

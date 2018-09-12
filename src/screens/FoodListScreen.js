@@ -2,21 +2,26 @@ import React, { Component } from "react";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 import { ListItem, SearchBar } from "react-native-elements";
 import { FoodListItemStyle } from '../AppStyles';
-
+import firebase from 'react-native-firebase';
 
 class FootListScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: typeof (navigation.state.params) == 'undefined' || typeof (navigation.state.params.item) == 'undefined' ? 'Sandwiches' : navigation.state.params.item.name,
   });
 
-  json = require('../jsons/foodlist.json');
-
   constructor(props) {
     super(props);
 
+    const { navigation } = props;
+    const item = navigation.getParam('item');
+
+
+    this.ref = firebase.firestore().collection('foods').where('category', '==', item.id);
+    this.unsubscribe = null;
+
     this.state = {
       loading: false,
-      data: this.json.results,
+      data: [],
       page: 1,
       seed: 1,
       error: null,
@@ -24,56 +29,33 @@ class FootListScreen extends Component {
     };
   }
 
-  componentDidMount() {
-    this.makeRemoteRequest();
+  onCollectionUpdate = (querySnapshot) => {
+    const data = [];
+    querySnapshot.forEach((doc) => {
+      const { name, description, photo, price } = doc.data();
+      data.push({
+        id: doc.id,
+        name,
+        description,
+        photo, 
+        doc,
+        price
+      });
+    });
+
+    this.setState({ 
+      data,
+      loading: false,
+   });
   }
 
+  componentDidMount() {
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate)
+  }
 
-
-  makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
-    this.setState({ loading: true });
-
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          // data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          data: this.json.results,
-          error: res.error || null,
-          loading: false,
-          refreshing: false
-        });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
-
-  handleRefresh = () => {
-    this.setState(
-      {
-        page: 1,
-        seed: this.state.seed + 1,
-        refreshing: true
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
-  };
-
-  handleLoadMore = () => {
-    this.setState(
-      {
-        page: this.state.page + 1
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
-  };
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
 
   renderSeparator = () => {
     return (
@@ -85,26 +67,6 @@ class FootListScreen extends Component {
           marginLeft: "14%"
         }}
       />
-    );
-  };
-
-  renderHeader = () => {
-    return <SearchBar placeholder="Type Here..." lightTheme round />;
-  };
-
-  renderFooter = () => {
-    if (!this.state.loading) return null;
-
-    return (
-      <View
-        style={{
-          paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
-        <ActivityIndicator animating size="large" />
-      </View>
     );
   };
 
@@ -136,13 +98,7 @@ class FootListScreen extends Component {
         renderItem={this.renderItem}
         keyExtractor={item => `${item.id}`}
         initialNumToRender={5}
-        // ItemSeparatorComponent={this.renderSeparator}
-        // ListHeaderComponent={this.renderHeader}
-        ListFooterComponent={this.renderFooter}
-        onRefresh={this.handleRefresh}
         refreshing={this.state.refreshing}
-        onEndReached={this.handleLoadMore}
-        onEndReachedThreshold={50}
       />
     );
   }

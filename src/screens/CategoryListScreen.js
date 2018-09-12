@@ -4,6 +4,7 @@ import { SearchBar } from "react-native-elements";
 import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
 import AsyncImageAnimated from 'react-native-async-image-animated';
+import firebase from 'react-native-firebase';
 
 // screen sizing
 const { width, height } = Dimensions.get('window');
@@ -28,9 +29,12 @@ class CategoryListScreen extends Component {
   constructor(props) {
     super(props);
 
+    this.ref = firebase.firestore().collection('categories');
+    this.unsubscribe = null;
+
     this.state = {
       loading: false,
-      data: this.json.results,
+      data: [],
       page: 1,
       seed: 1,
       error: null,
@@ -38,98 +42,40 @@ class CategoryListScreen extends Component {
     };
   }
 
-  componentDidMount() {
-    this.makeRemoteRequest();
+  onCollectionUpdate = (querySnapshot) => {
+    const data = [];
+    querySnapshot.forEach((doc) => {
+      const { name, photo } = doc.data();
+      data.push({
+        id: doc.id,
+        doc,
+        name, // DocumentSnapshot
+        photo
+      });
+    });
+
+    this.setState({ 
+      data,
+      loading: false,
+   });
   }
 
-  
+  componentDidMount() {
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate)
+  }
 
-  makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
-    this.setState({ loading: true });
-
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          // data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          data: this.json.results,
-          error: res.error || null,
-          loading: false,
-          refreshing: false
-        });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
-
-  handleRefresh = () => {
-    this.setState(
-      {
-        page: 1,
-        seed: this.state.seed + 1,
-        refreshing: true
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
-  };
-
-  handleLoadMore = () => {
-    this.setState(
-      {
-        page: this.state.page + 1
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
-  };
-
-  renderSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: "86%",
-          backgroundColor: "#CED0CE",
-          marginLeft: "14%"
-        }}
-      />
-    );
-  };
-
-  renderHeader = () => {
-    return <SearchBar placeholder="Type Here..." lightTheme round />;
-  };
-
-  renderFooter = () => {
-    if (!this.state.loading) return null;
-
-    return (
-      <View
-        style={{
-          paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
-  };
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
 
   onPress = (item) => {
-    this.props.navigation.navigate('FoodList', {item: item});
+    this.props.navigation.navigate('FoodList', { item: item });
   }
 
   renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => this.onPress(item)}>
       <View style={styles.container}>
-        <AsyncImageAnimated animationStyle={'fade'}  placeholderColor={AppStyles.color.placeholder} style={styles.photo} source={{ uri: item.photo }} />
+        <AsyncImageAnimated animationStyle={'fade'} placeholderColor={AppStyles.color.placeholder} style={styles.photo} source={{ uri: item.photo }} />
         <View style={styles.overlay} />
         <Text numberOfLines={3} style={styles.title}>
           {item.name}
@@ -148,14 +94,6 @@ class CategoryListScreen extends Component {
         data={this.state.data}
         renderItem={this.renderItem}
         keyExtractor={item => `${item.id}`}
-      // ItemSeparatorComponent={this.renderSeparator}
-      // ListHeaderComponent={this.renderHeader}
-      // ListFooterComponent={this.renderFooter}
-      // onRefresh={this.handleRefresh}
-      // refreshing={this.state.refreshing}
-      // onEndReached={this.handleLoadMore}
-      // onEndReachedThreshold={50}
-      // getItemLayout={this._getItemLayout}
       />
     );
   }

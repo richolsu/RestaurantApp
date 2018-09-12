@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import Button from 'react-native-button';
-import { SearchBar } from "react-native-elements";
 import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
 import { connect } from 'react-redux';
+import firebase from 'react-native-firebase';
 
 class CartScreen extends Component {
 
@@ -13,6 +13,27 @@ class CartScreen extends Component {
     headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />,
     headerRight: <View></View>,
   });
+
+
+  constructor(props) {
+    super(props);
+
+    this.ref = firebase.firestore().collection('orders');
+    this.unsubscribe = null;
+
+    console.log(this.props.user);
+    this.state = {
+      loading: false,
+      data: {},
+      error: null,
+      refreshing: false,
+      firstname: '',
+      lastname: '',
+      phone: this.props.user.id,
+      detail: '',
+    };
+  }
+
 
   renderFooter = () => {
 
@@ -26,8 +47,30 @@ class CartScreen extends Component {
     );
   };
 
-  onPress = (item) => {
-    this.props.navigation.dispatch({type:'PlaceOrder'});
+  onPress = () => {
+    const foods = [];
+    this.props.cartItems.forEach((item) => {
+      const { name, photo, price,count } = item;
+      foods.push({
+        id: item.id,
+        name,
+        count,
+        photo, 
+        price
+      });
+    });
+
+    const { navigation } = this.props;
+    this.ref.add({
+      user_id: this.props.user.id,
+      foods:foods
+    }).then(function (docRef) {
+      navigation.dispatch({ type: 'PlaceOrder' });
+    }).catch(function (error) {
+      alert(error);
+    });
+
+    
   }
 
   renderItem = ({ item }) => (
@@ -99,7 +142,7 @@ const styles = StyleSheet.create({
   actionButtonContainer: {
     padding: 10,
     backgroundColor: AppStyles.color.main,
-    marginBottom:30
+    marginBottom: 30
   },
   actionButtonText: {
     fontFamily: AppStyles.fontName.bold,
@@ -112,6 +155,7 @@ const styles = StyleSheet.create({
 // export default CartScreen;
 const mapStateToProps = state => ({
   cartItems: state.cart,
+  user: state.auth.user
 });
 
 export default connect(mapStateToProps)(CartScreen);

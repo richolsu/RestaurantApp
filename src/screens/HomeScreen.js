@@ -4,6 +4,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
 import AsyncImageAnimated from 'react-native-async-image-animated';
+import firebase from 'react-native-firebase';
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
@@ -12,64 +13,121 @@ export default class HomeScreen extends React.Component {
     headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />,
   });
 
-  json = require('../jsons/home.json');
+
 
   constructor(props) {
     super(props);
 
+    this.categoriesRef = firebase.firestore().collection('categories');
+    this.dealsRef = firebase.firestore().collection('categories');
+    this.foodsRef = firebase.firestore().collection('foods');
+    this.categorieUnsubscribe = null;
+    this.dealsUnsubscribe = null;
+    this.foodsUnsubscribe = null;
+
+
     this.state = {
       activeSlide: 1,
-      data: this.json.results,
+      categories: [], 
+      deals: [], 
+      foods: [],
       loading: false,
-      page: 1,
-      seed: 1,
       error: null,
       refreshing: false
     };
   }
 
+  onCategoriesCollectionUpdate = (querySnapshot) => {
+    const data = [];
+    querySnapshot.forEach((doc) => {
+      const { name, description, photo, price } = doc.data();
+      data.push({
+        id: doc.id,
+        name,
+        description,
+        photo,
+        doc,
+        price
+      });
+    });
+
+    this.setState({
+      categories: data,
+      loading: false,
+    });
+  }
+
+  onDealsCollectionUpdate = (querySnapshot) => {
+    const data = [];
+    querySnapshot.forEach((doc) => {
+      const { name, description, photo, price } = doc.data();
+      data.push({
+        id: doc.id,
+        name,
+        description,
+        photo,
+        doc,
+        price
+      });
+    });
+
+    this.setState({
+      deals: data,
+      loading: false,
+    });
+  }
+
+  onFoodsCollectionUpdate = (querySnapshot) => {
+    const data = [];
+    querySnapshot.forEach((doc) => {
+      const { name, description, photo, price } = doc.data();
+      data.push({
+        id: doc.id,
+        name,
+        description,
+        photo,
+        doc,
+        price
+      });
+    });
+
+    this.setState({
+      foods: data,
+      loading: false,
+    });
+  }
+
   componentDidMount() {
-    this.makeRemoteRequest();
+    this.categorieUnsubscribe = this.categoriesRef.onSnapshot(this.onCategoriesCollectionUpdate)
+    this.dealsUnsubscribe = this.dealsRef.onSnapshot(this.onDealsCollectionUpdate)
+    this.foodsUnsubscribe = this.foodsRef.onSnapshot(this.onFoodsCollectionUpdate)
+  }
+
+  componentWillUnmount() {
+    this.categorieUnsubscribe();
+    this.dealsUnsubscribe();
+    this.foodsUnsubscribe();
   }
 
 
-  makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
-    this.setState({ loading: true });
 
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          // data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          data: this.json.results,
-          error: res.error || null,
-          loading: false,
-          refreshing: false
-        });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
 
   onPressCategoryItem = (item) => {
-    this.props.navigation.navigate('FoodList', {item: item});
+    this.props.navigation.navigate('FoodList', { item: item });
   }
 
   onPressDealItem = (item) => {
-    this.props.navigation.navigate('FoodList', {item: item});
+    this.props.navigation.navigate('FoodList', { item: item });
   }
 
   onPressFoodItem = (item) => {
-    this.props.navigation.navigate('FoodDetail', {item: item});
+    this.props.navigation.navigate('FoodDetail', { item: item });
   }
 
   renderCategoryItem = ({ item }) => (
     <TouchableOpacity onPress={() => this.onPressCategoryItem(item)}>
       <View style={styles.categoryItemContainer}>
-        <AsyncImageAnimated animationStyle={'fade'}  placeholderColor={AppStyles.color.placeholder} style={styles.categoryItemPhoto} source={{ uri: item.photo }} />
+        <AsyncImageAnimated animationStyle={'fade'} placeholderColor={AppStyles.color.placeholder} style={styles.categoryItemPhoto} source={{ uri: item.photo }} />
         <Text style={styles.categoryItemTitle}>{item.name}</Text>
       </View>
     </TouchableOpacity>
@@ -78,7 +136,7 @@ export default class HomeScreen extends React.Component {
   renderFoodItem = ({ item }) => (
     <TouchableOpacity onPress={() => this.onPressFoodItem(item)}>
       <View style={styles.foodItemContainer}>
-        <AsyncImageAnimated animationStyle={'fade'}  placeholderColor={AppStyles.color.placeholder} style={styles.foodPhoto} source={{ uri: item.photo }} />
+        <AsyncImageAnimated animationStyle={'fade'} placeholderColor={AppStyles.color.placeholder} style={styles.foodPhoto} source={{ uri: item.photo }} />
         <View style={styles.foodInfo}>
           <Text style={styles.foodName}>{item.name}</Text>
           <Text style={styles.foodPrice}>${item.price}</Text>
@@ -90,7 +148,7 @@ export default class HomeScreen extends React.Component {
   renderDealItem = ({ item }) => (
     <TouchableOpacity onPress={() => this.onPressDealItem(item)}>
       <View style={styles.dealItemContainer}>
-        <AsyncImageAnimated animationStyle={'fade'}  placeholderColor={AppStyles.color.placeholder} style={styles.dealPhoto} source={{ uri: item.photo }} />
+        <AsyncImageAnimated animationStyle={'fade'} placeholderColor={AppStyles.color.placeholder} style={styles.dealPhoto} source={{ uri: item.photo }} />
         <View style={styles.overlay} />
         <Text style={styles.dealName}>{item.name}</Text>
       </View>
@@ -119,7 +177,7 @@ export default class HomeScreen extends React.Component {
             horizontal={true}
             initialNumToRender={4}
             // ItemSeparatorComponent={this.renderCategorySeparator}
-            data={this.state.data.categories}
+            data={this.state.categories}
             renderItem={this.renderCategoryItem}
             keyExtractor={item => `${item.id}`}
           />
@@ -129,7 +187,7 @@ export default class HomeScreen extends React.Component {
           <View style={styles.carousel}>
             <Carousel
               ref={(c) => { this._slider1Ref = c; }}
-              data={this.state.data.deals}
+              data={this.state.deals}
               renderItem={this.renderDealItem}
               sliderWidth={viewportWidth}
               itemWidth={viewportWidth}
@@ -145,7 +203,7 @@ export default class HomeScreen extends React.Component {
               onSnapToItem={(index) => this.setState({ activeSlide: index })}
             />
             <Pagination
-              dotsLength={this.state.data.deals.length}
+              dotsLength={this.state.deals.length}
               activeDotIndex={activeSlide}
               containerStyle={styles.paginationContainer}
               dotColor={'rgba(255, 255, 255, 0.92)'}
@@ -162,7 +220,7 @@ export default class HomeScreen extends React.Component {
         <View style={styles.foods}>
           <FlatList
             initialNumToRender={2}
-            data={this.state.data.foods}
+            data={this.state.foods}
             renderItem={this.renderFoodItem}
             keyExtractor={item => `${item.id}`}
           />
@@ -198,7 +256,7 @@ const styles = StyleSheet.create({
   },
   deals: {
     marginTop: 10,
-    minHeight: 200,    
+    minHeight: 200,
   },
   carousel: {
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>940038166370-j173t9gmase5jl1n005ltjrpgunvnd7n.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.940038166370-j173t9gmase5jl1n005ltjrpgunvnd7n</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDLdkz-QjPdMeaetyALm10m_aJN3Uqya4g</string>
+	<key>GCM_SENDER_ID</key>
+	<string>940038166370</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.RestaurantApp</string>
+	<key>PROJECT_ID</key>
+	<string>map-react-native-c4e28</string>
+	<key>STORAGE_BUCKET</key>
+	<string>map-react-native-c4e28.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:940038166370:ios:4d5bcd8f1354e16e</string>
+	<key>DATABASE_URL</key>
+	<string>https://map-react-native-c4e28.firebaseio.com</string>
+</dict>
+</plist>

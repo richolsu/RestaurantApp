@@ -18,6 +18,7 @@ class ReservationScreen extends React.Component {
     super(props);
 
     this.ref = firebase.firestore().collection('restaurants').limit(1);
+    this.reservationRef = firebase.firestore().collection('reservations');
     this.unsubscribe = null;
 
     console.log(this.props.user);
@@ -65,7 +66,17 @@ class ReservationScreen extends React.Component {
   );
 
   onReserve = () => {
-    alert("reserve");
+    this.reservationRef.add({
+      user_id: this.props.user.uid,
+      firstname:this.state.firstname,
+      lastname:this.state.lastname,
+      phone:this.state.phone,
+      detail:this.state.detail
+    }).then(function (docRef) {
+      alert('success!');
+    }).catch(function (error) {
+      alert(error);
+    });
   }
 
   render() {

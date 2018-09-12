@@ -12,7 +12,11 @@ class FootListScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.ref = firebase.firestore().collection('foods');
+    const { navigation } = props;
+    const item = navigation.getParam('item');
+
+
+    this.ref = firebase.firestore().collection('foods').where('category', '==', item.id);
     this.unsubscribe = null;
 
     this.state = {

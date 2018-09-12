@@ -3,74 +3,71 @@ import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import AsyncImageAnimated from 'react-native-async-image-animated';
 import Button from 'react-native-button';
 import { AppStyles } from '../AppStyles';
+import firebase from 'react-native-firebase';
 
 export default class FoodDetailScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: typeof (navigation.state.params) == 'undefined' || typeof (navigation.state.params.item) == 'undefined' ? 'Food' : navigation.state.params.item.name,
   });
 
-  json = require('../jsons/fooddetail.json');
-
   constructor(props) {
     super(props);
 
     const { navigation } = props;
     const item = navigation.getParam('item');
-    this.json.name = item.name;
-    this.json.price = item.price;
+
+    this.ref = firebase.firestore().collection('foods').doc(item.id);
+    this.unsubscribe = null;
 
     this.state = {
       loading: false,
-      data: this.json,
+      data: {},
       page: 1,
       seed: 1,
       error: null,
       refreshing: false,
       count: 1,
     };
+  }
 
-    
+  onDocUpdate = (doc) => {
+    const { name, details, description, photo, price } = doc.data();
+    this.setState({
+      data: {
+        id: doc.id,
+        name,
+        description,
+        photo,
+        details,
+        doc,
+        price
+      },
+      loading: false,
+    });
   }
 
   componentDidMount() {
-    // this.makeRemoteRequest();
+    this.unsubscribe = this.ref.onSnapshot(this.onDocUpdate)
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   onIncrease = () => {
-    this.setState({state:this.state.count++});
+    this.setState({ state: this.state.count++ });
   };
-  
+
   onDecrease = () => {
-    if (this.state.count>1)
-    this.setState({state:this.state.count--});
+    if (this.state.count > 1)
+      this.setState({ state: this.state.count-- });
   };
 
   onAddToCart = () => {
-    item = {...this.state.data, count: this.state.count};
-    this.props.navigation.dispatch({type:'Add', item: item});
+    item = { ...this.state.data, count: this.state.count };
+    this.props.navigation.dispatch({ type: 'Add', item: item });
   };
 
-
-  makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
-    this.setState({ loading: true });
-
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          // data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          data: this.json,
-          error: res.error || null,
-          loading: false,
-          refreshing: false
-        });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
 
   renderItem = ({ item }) => (
     <AsyncImageAnimated style={styles.detail} animationStyle={'fade'} placeholderColor={AppStyles.color.placeholder} source={{ uri: item }} />
@@ -102,7 +99,7 @@ export default class FoodDetailScreen extends React.Component {
           <FlatList style={styles.flat}
             horizontal={true}
             ItemSeparatorComponent={this.renderSeparator}
-            data={this.state.data.detail_photos}
+            data={this.state.data.details}
             renderItem={this.renderItem}
             keyExtractor={item => `${item}`}
           />

@@ -45,7 +45,7 @@ export default class SignupScreen extends React.Component {
         firebase.firestore().collection('users').doc(user.uid).set(data);
         firebase.firestore().collection('users').doc(user.uid).get().then(function (doc) {
           if (doc.exists) {
-            navigation.dispatch({ type: 'Login', user: doc.data() });
+            navigation.dispatch({ type: 'Login', user: {id:doc.id, ...doc.data()} });
           } else {
             navigation.dispatch({ type: 'Login', user: {id:user.uid, fullname:'', phone:'', email:user.email} });
           }
@@ -74,7 +74,7 @@ export default class SignupScreen extends React.Component {
           <TextInput style={TextInputStyle.body} placeholder="E-mail Address" onChangeText={(text) => this.setState({ email: text })} value={this.state.email} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
         </View>
         <View style={TextInputStyle.container}>
-          <TextInput style={TextInputStyle.body} placeholder="Password" onChangeText={(text) => this.setState({ password: text })} value={this.state.password} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+          <TextInput style={TextInputStyle.body} placeholder="Password" secureTextEntry={true} onChangeText={(text) => this.setState({ password: text })} value={this.state.password} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
         </View>
         <Button containerStyle={[ButtonStyle.facebookContainer, { marginTop: 50 }]} style={ButtonStyle.facebookText}
           onPress={() => this.onRegister()}>Sign Up</Button>

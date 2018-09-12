@@ -4,58 +4,69 @@ import Button from 'react-native-button';
 import { AppStyles, TextInputStyle } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
 import AsyncImageAnimated from 'react-native-async-image-animated';
+import firebase from 'react-native-firebase';
+import { connect } from 'react-redux';
 
-export default class FoodDetailScreen extends React.Component {
+class ReservationScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'Reservations',
     headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />,
   });
 
-  json = require('../jsons/reservation.json');
 
   constructor(props) {
     super(props);
 
+    this.ref = firebase.firestore().collection('restaurants').limit(1);
+    this.unsubscribe = null;
+
+    console.log(this.props.user);
     this.state = {
       loading: false,
-      data: this.json.result,
-      page: 1,
-      seed: 1,
+      data: {},
       error: null,
-      refreshing: false
+      refreshing: false,
+      firstname:'',
+      lastname:'',
+      phone:this.props.user.uid,
+      detail:'',
     };
   }
 
-  componentDidMount() {
-    this.makeRemoteRequest();
+  onCollectionUpdate = (querySnapshot) => {
+    const data = [];
+    querySnapshot.forEach((doc) => {
+      const { name, address, photo } = doc.data();
+      data.push({
+        id: doc.id,
+        name,
+        address,
+        photo,
+        doc,
+      });
+    });
+
+    this.setState({
+      data: data[0],
+      loading: false,
+    });
   }
 
-  
+  componentDidMount() {
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate)
+  }
 
-  makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
-    this.setState({ loading: true });
-
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          // data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          data: this.json.result,
-          error: res.error || null,
-          loading: false,
-          refreshing: false
-        });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
 
   renderItem = ({ item }) => (
     <Image style={styles.detail} source={{ uri: item }} />
   );
+
+  onReserve = () => {
+    alert("reserve");
+  }
 
   render() {
     return (
@@ -67,24 +78,30 @@ export default class FoodDetailScreen extends React.Component {
         </View>
         <View style={styles.content}>
           <View style={styles.textInputContainer}>
-            <TextInput style={styles.textInput} placeholder="First Name" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+            <TextInput style={styles.textInput} placeholder="First Name" onChangeText={(text) => this.setState({ firstname: text })} value={this.state.firstname} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
           </View>
           <View style={styles.textInputContainer}>
-            <TextInput style={styles.textInput} placeholder="Last Name" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+            <TextInput style={styles.textInput} placeholder="Last Name" onChangeText={(text) => this.setState({ lastname: text })} value={this.state.lastname} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
           </View>
           <View style={styles.textInputContainer}>
-            <TextInput style={styles.textInput} placeholder="Phone Number" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+            <TextInput style={styles.textInput} placeholder="Phone Number" onChangeText={(text) => this.setState({ phone: text })} value={this.state.phone} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
           </View>
           <View style={styles.textInputContainer}>
-            <TextInput style={styles.textInput} placeholder="Reservation Details" placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
+            <TextInput style={styles.textInput} placeholder="Reservation Details" onChangeText={(text) => this.setState({ detail: text })} value={this.state.detail} placeholderTextColor={AppStyles.color.grey} underlineColorAndroid='transparent' />
           </View>
-          <Button containerStyle={styles.buttonContainer} style={styles.buttonText} 
-            onPress={() => this.props.navigation.dispatch({ type: 'Login' })}>Make Reservation</Button>
+          <Button containerStyle={styles.buttonContainer} style={styles.buttonText}
+            onPress={() => this.onReserve()}>Make Reservation</Button>
         </View>
       </ScrollView>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps)(ReservationScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -134,8 +151,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 42,
-    paddingLeft:10, 
-    paddingRight:10,
+    paddingLeft: 10,
+    paddingRight: 10,
     color: AppStyles.color.text,
   }
 

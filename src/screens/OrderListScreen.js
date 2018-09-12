@@ -6,6 +6,7 @@ import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
 import AsyncImageAnimated from 'react-native-async-image-animated';
 import firebase from 'react-native-firebase';
+import { connect } from 'react-redux';
 
 class OrderListScreen extends Component {
 
@@ -18,7 +19,7 @@ class OrderListScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.ref = firebase.firestore().collection('orders');
+    this.ref = firebase.firestore().collection('orders').where('user_id', '==', this.props.user.uid);
     this.unsubscribe = null;
 
     this.state = {
@@ -167,5 +168,10 @@ const styles = StyleSheet.create({
 
 });
 
+// export default CartScreen;
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
 
-export default OrderListScreen;
+export default connect(mapStateToProps)(OrderListScreen);
+

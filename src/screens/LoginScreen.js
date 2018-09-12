@@ -21,7 +21,7 @@ class LoginScreen extends Component {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((user) => {
-        this.props.navigation.dispatch({ type: 'Login' });
+        this.props.navigation.dispatch({ type: 'Login', user:user });
       })
       .catch((error) => {
         const { code, message } = error;
@@ -33,7 +33,7 @@ class LoginScreen extends Component {
   }
 
   onPressFacebook = () => {
-    this.props.navigation.dispatch({ type: 'Login' });
+    this.props.navigation.dispatch({ type: 'Login', user:{} });
   }
 
   render() {

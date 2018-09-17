@@ -9,13 +9,13 @@ export default class DrawerContainer extends React.Component {
     return (
       <View style={styles.content}>
         <View style={styles.container}>
-          <MenuButton title='HOME' source={require('../../assets/icons/home.png')} onPress={() => { navigation.navigate('Home') }} />
+          <MenuButton title='HOME' source={require('../../assets/icons/shop.png')} onPress={() => { navigation.navigate('Home') }} />
           <MenuButton title='MENU' source={require('../../assets/icons/menu.png')} onPress={() => { navigation.navigate('CategoryList') }} />
           <MenuButton title='SEARCH' source={require('../../assets/icons/search.png')} onPress={() => { navigation.navigate('Search') }} />
           <MenuButton title='CART' source={require('../../assets/icons/cart.png')} onPress={() => { navigation.navigate('Cart') }} />
           <MenuButton title='RESERVATIONS' source={require('../../assets/icons/reserve.png')} onPress={() => { navigation.navigate('Reservation') }} />
           <MenuButton title='ORDERS' source={require('../../assets/icons/delivery.png')} onPress={() => { navigation.navigate('OrderList') }} />
-          <MenuButton title='LOG OUT' source={require('../../assets/icons/shop.png')} onPress={() => { navigation.dispatch({type: 'Logout'}) }} />
+          <MenuButton title='LOG OUT' source={require('../../assets/icons/shutdown.png')} onPress={() => { navigation.dispatch({type: 'Logout'}) }} />
         </View>
       </View>
     )

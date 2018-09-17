@@ -4,7 +4,7 @@ import Button from 'react-native-button';
 import { SearchBar } from "react-native-elements";
 import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
-import AsyncImageAnimated from 'react-native-async-image-animated';
+import AsyncImageAnimated from '../components/AsyncImageAnimated';
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 
@@ -62,7 +62,10 @@ class OrderListScreen extends Component {
 
   renderItem = ({ item }) => (
     <View style={styles.container}>
-      <AsyncImageAnimated animationStyle={'fade'}  placeholderColor={AppStyles.color.placeholder} style={styles.photo} source={{ uri: item.list[0].photo }} />
+      <View>
+        <AsyncImageAnimated animationStyle={'fade'}  placeholderColor={AppStyles.color.placeholder} style={styles.photo} source={{ uri: item.list[0].photo }} />
+        <View style={styles.overlay} />
+      </View>
       {
         item.list.map((food) => {
           return (
@@ -74,7 +77,7 @@ class OrderListScreen extends Component {
           );
         })}
       <View style={styles.actionContainer}>
-        <Text style={styles.total}>Total:${(item.list.reduce((prev, next) => prev + next.price * next.count, 0) + 1).toFixed(1)}</Text>
+        <Text style={styles.total}>Total: ${(item.list.reduce((prev, next) => prev + next.price * next.count, 0) + 1).toFixed(1)}</Text>
         <Button containerStyle={styles.actionButtonContainer} style={styles.actionButtonText}
           onPress={() => this.onPress(item)}>REORDER</Button>
       </View>
@@ -107,6 +110,10 @@ const styles = StyleSheet.create({
   photo: {
     width: '100%',
     height: 100,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.5)'
   },
   rowContainer: {
     flexDirection: 'row',
@@ -144,7 +151,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   total: {
-    flex: 2,
+    flex: 4,
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
@@ -163,7 +170,9 @@ const styles = StyleSheet.create({
     backgroundColor: AppStyles.color.main
   },
   actionButtonText: {
-    color: AppStyles.color.white
+    color: AppStyles.color.white,
+    fontSize:15,
+    fontFamily: AppStyles.fontName.bold,
   }
 
 });

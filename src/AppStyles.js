@@ -119,7 +119,7 @@ export const TextInputStyle = StyleSheet.create({
 
 export const FoodListItemStyle = StyleSheet.create({
   title: {
-    fontSize: 20,
+    fontSize: 18,
     color: AppStyles.color.text,
     fontFamily: AppStyles.fontName.bold,
   },
@@ -139,8 +139,8 @@ export const FoodListItemStyle = StyleSheet.create({
     paddingLeft: 10,
   },
   rightIcon: {
-    width: 120,
-    height: 120
+    width: 100,
+    height: 100
   }
 });
 

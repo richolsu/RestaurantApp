@@ -3,7 +3,7 @@ import { ActivityIndicator, Dimensions, FlatList, Image, StyleSheet, Text, Touch
 import { SearchBar } from "react-native-elements";
 import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
-import AsyncImageAnimated from 'react-native-async-image-animated';
+import AsyncImageAnimated from '../components/AsyncImageAnimated';
 import firebase from 'react-native-firebase';
 
 // screen sizing
@@ -24,7 +24,6 @@ class CategoryListScreen extends Component {
     headerLeft: <Hamburger onPress={() => { navigation.openDrawer() }} />
   });
 
-  json = require('../jsons/categorylist.json');
 
   constructor(props) {
     super(props);
@@ -111,6 +110,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
+    fontSize: 19,
     fontFamily: AppStyles.fontName.bold,
     textAlign: 'center'
   },

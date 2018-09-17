@@ -76,7 +76,7 @@ function cart(state = [], action) {
     case 'PlaceOrder':
       return [];
     case 'Reorder':
-      return [...state, ...action.items];
+      return [...action.items];
     default:
       return state;
   }

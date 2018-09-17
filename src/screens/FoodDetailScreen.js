@@ -1,6 +1,6 @@
 import React from 'react';
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
-import AsyncImageAnimated from 'react-native-async-image-animated';
+import { FlatList, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import AsyncImageAnimated from '../components/AsyncImageAnimated';
 import Button from 'react-native-button';
 import { AppStyles } from '../AppStyles';
 import firebase from 'react-native-firebase';
@@ -27,12 +27,14 @@ export default class FoodDetailScreen extends React.Component {
       error: null,
       refreshing: false,
       count: 1,
+      photo:null,
     };
   }
 
   onDocUpdate = (doc) => {
     const { name, details, description, photo, price } = doc.data();
     this.setState({
+      photo:photo,
       data: {
         id: doc.id,
         name,
@@ -68,9 +70,14 @@ export default class FoodDetailScreen extends React.Component {
     this.props.navigation.dispatch({ type: 'Add', item: item });
   };
 
+  onPressItem = (item) => {
+    this.setState({ photo: item });
+  }
 
   renderItem = ({ item }) => (
+    <TouchableOpacity onPress={() => this.onPressItem(item)}>
     <AsyncImageAnimated style={styles.detail} animationStyle={'fade'} placeholderColor={AppStyles.color.placeholder} source={{ uri: item }} />
+    </TouchableOpacity>
   );
 
   renderSeparator = () => {
@@ -90,7 +97,7 @@ export default class FoodDetailScreen extends React.Component {
         <Text style={styles.title}> {this.state.data.name} </Text>
         <AsyncImageAnimated
           source={{
-            uri: this.state.data.photo
+            uri: this.state.photo
           }}
           animationStyle={'fade'}
           style={styles.photo}
@@ -101,6 +108,7 @@ export default class FoodDetailScreen extends React.Component {
             ItemSeparatorComponent={this.renderSeparator}
             data={this.state.data.details}
             renderItem={this.renderItem}
+            showsHorizontalScrollIndicator={false}
             keyExtractor={item => `${item}`}
           />
         </View>
@@ -115,7 +123,7 @@ export default class FoodDetailScreen extends React.Component {
           </View>
         </View>
         <View style={styles.actionContainer}>
-          <Text style={styles.price}>${this.state.data.price}</Text>
+          <Text style={styles.price}>${(this.state.data.price * this.state.count).toFixed(1)}</Text>
           <Button containerStyle={styles.actionButtonContainer} style={styles.actionButtonText}
             onPress={this.onAddToCart}>Add to Cart</Button>
         </View>
@@ -138,16 +146,16 @@ const styles = StyleSheet.create({
   photo: {
     width: '100%',
     height: 300,
-    marginTop: 5,
+    marginTop: 2,
   },
   detail: {
-    height: 90,
-    width: 120,
+    height: 65,
+    width: 65,
     marginBottom: 5,
   },
   detailPhotos: {
-    height: 100,
-    marginTop: 20,
+    height: 65,
+    marginTop: 10,
   },
   description: {
     marginTop: 20,
@@ -194,7 +202,7 @@ const styles = StyleSheet.create({
   },
   actionContainer: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 50,
   },
   actionButtonContainer: {

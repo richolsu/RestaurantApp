@@ -1,9 +1,9 @@
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Image, ScrollView, Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 import Button from 'react-native-button';
 import { AppStyles, TextInputStyle } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
-import AsyncImageAnimated from 'react-native-async-image-animated';
+import AsyncImageAnimated from '../components/AsyncImageAnimated';
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 
@@ -73,7 +73,15 @@ class ReservationScreen extends React.Component {
       phone:this.state.phone,
       detail:this.state.detail
     }).then(function (docRef) {
-      alert('success!');
+      Alert.alert(
+        '',
+        'Your reservation was successful!',
+        [
+          {text: 'OK'},
+        ],
+        { cancelable: false }
+      );
+      
     }).catch(function (error) {
       alert(error);
     });
@@ -82,7 +90,10 @@ class ReservationScreen extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <AsyncImageAnimated animationStyle={'fade'} placeholderColor={AppStyles.color.placeholder} style={styles.photo} source={{ uri: this.state.data.photo }} />
+        <View>
+          <AsyncImageAnimated animationStyle={'fade'} placeholderColor={AppStyles.color.placeholder} style={styles.photo} source={{ uri: this.state.data.photo }} />
+          <View style={styles.overlay} />
+        </View>
         <View style={styles.info}>
           <Text style={styles.title}> {this.state.data.name} </Text>
           <Text style={styles.description}> {this.state.data.address} </Text>
@@ -122,6 +133,10 @@ const styles = StyleSheet.create({
   photo: {
     width: '100%',
     height: 200,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.5)'
   },
   info: {
     padding: 20,

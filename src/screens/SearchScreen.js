@@ -17,7 +17,7 @@ class SearchScreen extends Component {
             backgroundColor: 'transparent', borderBottomColor: 'transparent',
             borderTopColor: 'transparent', flex: 1
           }}
-          inputStyle={{ backgroundColor: 'rgba(0.8, 0.8, 0.8, 0.2)', borderRadius: 10, color: 'black' }}
+          inputStyle={{ backgroundColor: 'rgba(0.9, 0.9, 0.9, 0.1)', borderRadius: 10, color: 'black' }}
           showLoading
           clearIcon={true}
           searchIcon={true}

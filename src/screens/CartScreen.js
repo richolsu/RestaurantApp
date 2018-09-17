@@ -85,16 +85,19 @@ class CartScreen extends Component {
 
 
   render() {
+    const { cartItems } = this.props;
     return (
       <View style={styles.container}>
+        {this.props.cartItems.length>0 &&
         <FlatList style={styles.flat}
           data={this.props.cartItems}
           renderItem={this.renderItem}
           keyExtractor={item => `${item.id}`}
           ListFooterComponent={this.renderFooter}
-        />
-        <Button containerStyle={styles.actionButtonContainer} style={styles.actionButtonText}
-          onPress={this.onPress}>PLACE ORDER</Button>
+        />}
+        {this.props.cartItems.length==0 && <Text style={styles.emptyTitle}> Cart is empty </Text>}
+        {this.props.cartItems.length > 0 && <Button containerStyle={styles.actionButtonContainer} style={styles.actionButtonText}
+          onPress={this.onPress}>PLACE ORDER</Button>}
       </View>
     );
   }
@@ -104,6 +107,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: AppStyles.color.white
+  },
+  emptyTitle: {
+    flex: 1,
+    alignSelf: 'center',
+    alignItems: 'center',
+    textAlignVertical:'center',
+    justifyContent: 'center',
   },
   flat: {
     flex: 1,

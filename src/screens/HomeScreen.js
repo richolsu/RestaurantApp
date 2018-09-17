@@ -3,7 +3,7 @@ import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpa
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { AppStyles } from '../AppStyles';
 import Hamburger from '../components/Hamburger';
-import AsyncImageAnimated from 'react-native-async-image-animated';
+import AsyncImageAnimated from '../components/AsyncImageAnimated';
 import firebase from 'react-native-firebase';
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
@@ -27,7 +27,7 @@ export default class HomeScreen extends React.Component {
 
 
     this.state = {
-      activeSlide: 1,
+      activeSlide: 0,
       categories: [], 
       deals: [], 
       foods: [],
@@ -178,6 +178,7 @@ export default class HomeScreen extends React.Component {
             initialNumToRender={4}
             // ItemSeparatorComponent={this.renderCategorySeparator}
             data={this.state.categories}
+            showsHorizontalScrollIndicator={false}
             renderItem={this.renderCategoryItem}
             keyExtractor={item => `${item.id}`}
           />
@@ -194,10 +195,10 @@ export default class HomeScreen extends React.Component {
               // hasParallaxImages={true}
               inactiveSlideScale={1}
               inactiveSlideOpacity={1}
-              firstItem={1}
-              loop={true}
+              firstItem={0}
+              loop={false}
               // loopClonesPerSide={2}
-              autoplay={true}
+              autoplay={false}
               autoplayDelay={500}
               autoplayInterval={3000}
               onSnapToItem={(index) => this.setState({ activeSlide: index })}
@@ -238,17 +239,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   categories: {
-    height: 140,
-    marginTop: 10,
+    height: 95,
+    marginTop: 7,
   },
   categoryItemContainer: {
-    margin: 10,
+    margin: 5,
     alignItems: 'center'
   },
   categoryItemPhoto: {
-    height: 100,
-    width: 100,
-    borderRadius: 50
+    height: 70,
+    width: 70,
+    borderRadius: 35
   },
   categoryItemTitle: {
     fontFamily: AppStyles.fontName.bold,

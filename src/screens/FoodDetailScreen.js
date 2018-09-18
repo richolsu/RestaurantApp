@@ -27,7 +27,7 @@ export default class FoodDetailScreen extends React.Component {
       error: null,
       refreshing: false,
       count: 1,
-      photo:null,
+      photo: item.photo,
     };
   }
 
